@@ -1,0 +1,5 @@
+<resources>
+    <string name="search">Search</string>
+    <string name="splash_screen">Splash Screen</string>
+    <string name="app_name" translatable="false">Smart Shopping</string>
+</resources>
