@@ -14,7 +14,7 @@
         android:drawableLeft="@drawable/ic_menu_search"
         android:hint="@string/search" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCategories"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -22,7 +22,7 @@
         android:layout_marginBottom="20dp"
         android:orientation="horizontal" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
