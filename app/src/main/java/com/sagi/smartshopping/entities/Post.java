@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Post {
 
-    private Timestamp date;
+    private long timestamp;
     private String username;
     private String userProfile;
     private String key;
@@ -12,20 +12,19 @@ public class Post {
 
     public Post(){}
 
-    public Post(Timestamp date, String username, String userProfile, String key, String postBody) {
-        this.date = date;
+    public Post(long timestamp, String username, String key, String postBody) {
+        this.timestamp = timestamp;
         this.username = username;
-        this.userProfile = userProfile;
         this.key = key;
         this.postBody = postBody;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getUsername() {

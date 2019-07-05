@@ -59,7 +59,6 @@ public class LocationService extends Service {
 
             for (Location location:locationResult.getLocations()){
                 Log.d("LocationService",location.getLatitude()+", "+location.getLongitude());
-
             }
 
         }

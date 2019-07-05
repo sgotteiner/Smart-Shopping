@@ -18,8 +18,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Pl
     private CallbackAdapterCategories mListener;
 
 
-    public AdapterCategories(List<String> suggestionsList, Context context, CallbackAdapterCategories callbackAdapterCategories) {
-        this.mCategoriesList = suggestionsList;
+    public AdapterCategories(List<String> categoriesList, Context context, CallbackAdapterCategories callbackAdapterCategories) {
+        this.mCategoriesList = categoriesList;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mListener = callbackAdapterCategories;
     }

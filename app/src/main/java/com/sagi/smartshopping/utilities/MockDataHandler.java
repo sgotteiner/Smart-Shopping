@@ -1,5 +1,7 @@
 package com.sagi.smartshopping.utilities;
 
+import com.sagi.smartshopping.entities.Post;
+
 import java.util.ArrayList;
 
 public class MockDataHandler {
@@ -22,5 +24,19 @@ public class MockDataHandler {
         allSuggestionsList.add("גישה");
         allSuggestionsList.add("בסביבה");
         allSuggestionsList.add("קטגוריות");
+    }
+
+    public static void getPosts(ArrayList<Post> categoriesList ) {
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
     }
 }

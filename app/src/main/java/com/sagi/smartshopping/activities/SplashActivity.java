@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
+import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private void requestPermissions() {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);
-
     }
 
     private boolean isNeedAskPermission() {
@@ -43,34 +41,42 @@ public class SplashActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        boolean locationPermissionDenied=false;
+        boolean locationPermissionDenied = false;
         for (int i = 0; i < permissions.length; i++) {
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                  locationPermissionDenied = true;
+                locationPermissionDenied = true;
             }
         }
-        if (locationPermissionDenied){
+        if (locationPermissionDenied) {
             finish();
-        }else {
-            showMainActivity();
+        } else {
+            chooseScreen();
         }
     }
 
 
-
     private void handleShowingActivity() {
-        final int DELAY_TIME = 3000;
+        final int DELAY_TIME = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                showMainActivity();
+                chooseScreen();
             }
         }, DELAY_TIME);
     }
 
-    private void showMainActivity() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+    private void chooseScreen() {
+        if (SharedPreferencesHelper.getInstance(this).isAlreadyLogin())
+            showActivity(RegisterLoginActivity.class);
+        else
+            showActivity(MainActivity.class);
+    }
+
+    private void showActivity(Class<?> aClass) {
+        Intent intent = new Intent(SplashActivity.this, aClass);
         startActivity(intent);
         finish();
     }
+
+
 }

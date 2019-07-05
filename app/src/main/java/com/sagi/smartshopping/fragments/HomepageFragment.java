@@ -14,20 +14,24 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.adapters.AdapterPostCategories;
+import com.sagi.smartshopping.adapters.AdapterPost;
 import com.sagi.smartshopping.adapters.AdapterCategories;
+import com.sagi.smartshopping.entities.Post;
 import com.sagi.smartshopping.utilities.MockDataHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class HomepageFragment extends Fragment implements AdapterCategories.CallbackAdapterCategories {
 
     private OnFragmentInteractionListener mListener;
-    private ArrayList<String> mAllSuggestionsList = new ArrayList<>(), mAllCategoriesList = new ArrayList<>();
+    private ArrayList<String> mAllSuggestionsList = new ArrayList<>();
+    private  HashMap<String, List<Post>> mListHashMapCategories;
     private AdapterCategories mAdapterCategories;
-    private AdapterPostCategories mAdapterPostCategories;
+    private AdapterPost mAdapterPost;
     private RecyclerView mRecyclerCategories;
-    private RecyclerView mRecyclerPostCategories;
+    private RecyclerView mRecyclerPost;
 
     public HomepageFragment() {
         // Required empty public constructor
@@ -46,33 +50,53 @@ public class HomepageFragment extends Fragment implements AdapterCategories.Call
 
         loadViews(view);
         loadMockData();
-
-        mAdapterCategories = new AdapterCategories(mAllSuggestionsList, getContext(),this);
-        mAdapterPostCategories = new AdapterPostCategories(mAllCategoriesList, getContext());
-
-        mRecyclerCategories.setHasFixedSize(true);
-        mRecyclerPostCategories.setHasFixedSize(true);
-
-        mRecyclerCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerPostCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mRecyclerCategories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mRecyclerPostCategories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
-        mRecyclerCategories.setAdapter(mAdapterCategories);
-        mRecyclerPostCategories.setAdapter(mAdapterPostCategories);
-
+        configRecyclerViews();
 
     }
 
+    private void configRecyclerViews() {
+        mAdapterCategories = new AdapterCategories(mAllSuggestionsList, getContext(), this);
+        mAdapterPost = new AdapterPost(mListHashMapCategories, getContext());
+
+        mRecyclerCategories.setHasFixedSize(true);
+        mRecyclerPost.setHasFixedSize(true);
+
+        mRecyclerCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerPost.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mRecyclerCategories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerPost.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        mRecyclerCategories.setAdapter(mAdapterCategories);
+        mRecyclerPost.setAdapter(mAdapterPost);
+    }
+
+
+
+    private HashMap<String, List<Post>> getMapList() {
+        ArrayList<Post> categoriesListFood = new ArrayList<>();
+        ArrayList<Post> categoriesListGadgets = new ArrayList<>();
+        ArrayList<Post> categoriesListFashion = new ArrayList<>();
+
+        MockDataHandler.getPosts(categoriesListFood);
+        MockDataHandler.getPosts(categoriesListGadgets);
+        MockDataHandler.getPosts(categoriesListFashion);
+
+        HashMap<String, List<Post>> allPostsCategories = new HashMap<>();
+        allPostsCategories.put("0", categoriesListFood);
+        allPostsCategories.put("1", categoriesListGadgets);
+        allPostsCategories.put("2", categoriesListFashion);
+        return allPostsCategories;
+    }
+
     private void loadMockData() {
-        MockDataHandler.addCategories(mAllCategoriesList);
         MockDataHandler.addSuggestions(mAllSuggestionsList);
+        mListHashMapCategories=getMapList();
     }
 
     private void loadViews(View view) {
         mRecyclerCategories = view.findViewById(R.id.recyclerCategories);
-        mRecyclerPostCategories = view.findViewById(R.id.recyclerPostCategories);
+        mRecyclerPost = view.findViewById(R.id.recyclerPost);
     }
 
 

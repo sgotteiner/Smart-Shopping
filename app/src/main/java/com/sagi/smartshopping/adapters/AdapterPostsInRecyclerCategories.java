@@ -12,17 +12,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
+import com.sagi.smartshopping.entities.Post;
 
 import java.util.List;
 
 public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<AdapterPostsInRecyclerCategories.PlaceHolder> {
 
-    private List<Bitmap> posts;
+    private List<Post> posts;
     private LayoutInflater layoutInflater;
     private Context context;
 
 
-    public AdapterPostsInRecyclerCategories(List<Bitmap> posts, Context context) {
+    public AdapterPostsInRecyclerCategories(List<Post> posts, Context context) {
         this.posts = posts;
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
@@ -31,11 +32,13 @@ public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<Adapt
 
     public class PlaceHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgPost;
+        private ImageView mImgPost;
+        private TextView mTxtUsername;
 
         public PlaceHolder(View view) {
             super(view);
-            imgPost = view.findViewById(R.id.imgPost);
+            mImgPost = view.findViewById(R.id.imgPost);
+            mTxtUsername = view.findViewById(R.id.txtUsername);
         }
     }
 
@@ -50,19 +53,14 @@ public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<Adapt
     @Override
     public void onBindViewHolder(final AdapterPostsInRecyclerCategories.PlaceHolder holder, final int position) {
 
-        final Bitmap bitmapPost = posts.get(position);
-        holder.imgPost.setImageBitmap(bitmapPost);
-        holder.imgPost.setOnClickListener(new View.OnClickListener() {
+        final Post post = posts.get(position);
+        holder.mTxtUsername.setText(post.getUsername());
+
+//        holder.imgPost.setImageBitmap(bitmapPost);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-            }
-        });
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "ejfoije", Toast.LENGTH_SHORT).show();
             }
         });
 
