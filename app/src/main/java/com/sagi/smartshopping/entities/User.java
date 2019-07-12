@@ -10,81 +10,81 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private long birthDay;
-    private long lastTimeSeen;
-    private boolean isManagerApp = false;
+    private String mFirstName;
+    private String mLastName;
+    private String mEmail;
+    private long mBirthDay;
+    private long mLastTimeSeen;
+    private boolean mIsManagerApp = false;
 
 
 
-    public boolean isManagerApp() {
-        return isManagerApp;
+    public boolean ismIsManagerApp() {
+        return mIsManagerApp;
     }
 
-    public void setManagerApp(boolean managerApp) {
-        isManagerApp = managerApp;
+    public void setmIsManagerApp(boolean mIsManagerApp) {
+        this.mIsManagerApp = mIsManagerApp;
     }
 
     public  String textEmailForFirebase() {
-       return  Utils.textEmailForFirebase(email);
+       return  Utils.textEmailForFirebase(mEmail);
     }
 
     public User(String firstName, String lastName, String email, long birthDay, long lastTimeSeen, boolean isManagerApp) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.lastTimeSeen = lastTimeSeen;
-        this.isManagerApp = isManagerApp;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mEmail = email;
+        this.mBirthDay = birthDay;
+        this.mLastTimeSeen = lastTimeSeen;
+        this.mIsManagerApp = isManagerApp;
     }
 
 
     public User(String firstName, String lastName, String email, long birthDay, long lastTimeSeen) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.lastTimeSeen = lastTimeSeen;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mEmail = email;
+        this.mBirthDay = birthDay;
+        this.mLastTimeSeen = lastTimeSeen;
     }
 
     public User() {
     }
 
     public String getFirstName() {
-        return firstName;
+        return mFirstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String mFirstName) {
+        this.mFirstName = mFirstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return mLastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String mLastName) {
+        this.mLastName = mLastName;
     }
 
     public String getEmail() {
-        return email;
+        return mEmail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.mEmail = email;
     }
 
     public long getBirthDay() {
-        return birthDay;
+        return mBirthDay;
     }
 
-    public void setBirthDay(long birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDay(long mBirthDay) {
+        this.mBirthDay = mBirthDay;
     }
 
     public long getLastTimeSeen() {
-        return lastTimeSeen;
+        return mLastTimeSeen;
     }
 }

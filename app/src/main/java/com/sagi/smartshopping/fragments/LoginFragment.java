@@ -17,17 +17,18 @@ import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.interfaces.IWaitingProgressBar;
+import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
 
 public class LoginFragment extends Fragment implements IWaitingProgressBar {
 
     private OnFragmentInteractionListener mListener;
 
-    private EditText edtEmail, mEdtPass;
-    private CheckBox checkBoxRememberMe;
-    private Button btnLogin;
-    private TextView textViewRegister;
-    private boolean isRememberMe = false;
-    private ProgressDialog progressDialog;
+    private EditText mEdtEmail, mEdtPass;
+    private CheckBox mCheckBoxRememberMe;
+    private Button mBtnLogin;
+    private TextView mTxtRegister;
+    private boolean mIsRememberMe = false;
+    private ProgressDialog mProgressDialog;
 
 
     public LoginFragment() {
@@ -45,7 +46,7 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        progressDialog = new ProgressDialog(getContext());
+        mProgressDialog = new ProgressDialog(getContext());
         loadViews(view);
         loadListeners();
     }
@@ -70,7 +71,7 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
     }
 
     private void loadListeners() {
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isValid())
@@ -79,16 +80,17 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
                 checkIfUserExist();
             }
         });
-        textViewRegister.setOnClickListener(new View.OnClickListener() {
+        mTxtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showRegisterScreen();
             }
         });
-        checkBoxRememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mCheckBoxRememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
-                isRememberMe = isCheck;
+                mIsRememberMe = isCheck;
+                SharedPreferencesHelper.getInstance(getContext()).setIsAlreadyLogin(isCheck);
             }
         });
     }
@@ -99,7 +101,7 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
     }
 
     private boolean isValid() {
-        String email = edtEmail.getText().toString();
+        String email = mEdtEmail.getText().toString();
         String pass = mEdtPass.getText().toString();
 
         if (pass.trim().equals("") || email.equals("")) {
@@ -121,32 +123,32 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
     }
 
     private void checkIfUserExist() {
-        String email = edtEmail.getText().toString();
+        String email = mEdtEmail.getText().toString();
         String pass = mEdtPass.getText().toString();
-        mListener.signIn(email, pass, isRememberMe);
+        mListener.signIn(email, pass, mIsRememberMe);
     }
 
     private void showProgressDialog() {
-        progressDialog.setMessage("Try login your profile");
-        progressDialog.setTitle("Waiting");
-        progressDialog.setCancelable(false);
-        progressDialog.setIcon(R.drawable.save);
-        progressDialog.show();
+        mProgressDialog.setMessage("Try login your profile");
+        mProgressDialog.setTitle("Waiting");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setIcon(R.drawable.save);
+        mProgressDialog.show();
     }
 
 
     private void loadViews(View view) {
-        edtEmail = view.findViewById(R.id.edtEmailLogin);
+        mEdtEmail = view.findViewById(R.id.edtEmailLogin);
         mEdtPass = view.findViewById(R.id.edtPassLogin);
-        checkBoxRememberMe = view.findViewById(R.id.checkBoxRememberMeLgin);
-        btnLogin = view.findViewById(R.id.btnLogin);
-        textViewRegister = view.findViewById(R.id.textViewRegister);
+        mCheckBoxRememberMe = view.findViewById(R.id.checkBoxRememberMeLgin);
+        mBtnLogin = view.findViewById(R.id.btnLogin);
+        mTxtRegister = view.findViewById(R.id.textViewRegister);
     }
 
 
     @Override
     public void stopProgressBar() {
-        progressDialog.dismiss();
+        mProgressDialog.dismiss();
     }
 
 

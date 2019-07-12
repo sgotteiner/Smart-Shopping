@@ -6,39 +6,84 @@
     android:paddingHorizontal="10dp"
     tools:context=".fragments.CreatePostFragment">
 
-    <TextView
-        android:id="@+id/txtTitle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Create a new post"
-        android:textSize="40dp" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imgPostImage"
-        android:layout_below="@+id/txtTitle"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:adjustViewBounds="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/gallery"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edtPostBody"
-        android:layout_below="@+id/imgPostImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="30dp"/>
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="Create a new post"
+                android:textSize="40dp" />
 
-    <ImageView
-        android:id="@+id/imgSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/save"
-        android:layout_below="@+id/edtPostBody"
-        android:layout_marginBottom="5dp"/>
+            <EditText
+                android:id="@+id/edtPostTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTitle"
+                android:layout_marginTop="15dp"
+                android:hint="כותרת" />
+
+            <EditText
+                android:id="@+id/edtPostPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edtPostTitle"
+                android:layout_marginTop="15dp"
+                android:hint="מחיר" />
+
+            <ImageView
+                android:id="@+id/imgPostImage"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_below="@+id/edtPostPrice"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/gallery" />
+
+            <EditText
+                android:id="@+id/edtCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgPostImage"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="100dp"
+                android:hint="קטגוריה"
+                android:singleLine="true" />
+
+            <Spinner
+                android:id="@+id/spnCategory"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/imgPostImage"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtPostBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnCategory"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30dp"
+                android:hint="תיאור" />
+
+            <ImageView
+                android:id="@+id/imgSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edtPostBody"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/save" />
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

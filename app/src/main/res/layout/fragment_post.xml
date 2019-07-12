@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PostFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/rlTitle"
         android:layout_width="match_parent"
@@ -16,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="28/06/2019" />
 
         <ImageView
@@ -28,17 +37,35 @@
             android:id="@+id/txtUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/imgProfileImage"
             android:text="sagi" />
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="15dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlIcons"
+        android:layout_marginBottom="10dp" />
+
     <ImageView
         android:id="@+id/imgPostImage"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_below="@+id/rlTitle" />
+        android:layout_below="@+id/txtTitle"
+        android:layout_marginBottom="15dp" />
 
     <RelativeLayout
         android:id="@+id/rlIcons"
@@ -49,28 +76,43 @@
         <ImageView
             android:id="@+id/imgIconLike"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="5dp"
+            android:src="@drawable/like" />
 
         <ImageView
             android:id="@+id/imgIconFavorites"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_toLeftOf="@+id/imgIconChat"
+            android:src="@drawable/keep" />
 
         <ImageView
             android:id="@+id/imgIconChat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_toLeftOf="@+id/imgIconLike"
+            android:src="@drawable/chat" />
 
         <ImageView
             android:id="@+id/imgIconShare"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_toLeftOf="@+id/imgIconFavorites"
+            android:src="@drawable/share" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/txtPostBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlIcons" />
+        android:layout_below="@+id/txtPrice" />
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

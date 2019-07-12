@@ -27,16 +27,16 @@ public class MockDataHandler {
     }
 
     public static void getPosts(ArrayList<Post> categoriesList ) {
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
-        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
+        categoriesList.add(new Post(System.currentTimeMillis(),"Test "+categoriesList.size()+1,"Sagi"+categoriesList.size()+1,"ss", "c"));
     }
 }

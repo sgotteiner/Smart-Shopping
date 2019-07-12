@@ -4,13 +4,18 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -67,9 +72,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private void chooseScreen() {
         if (SharedPreferencesHelper.getInstance(this).isAlreadyLogin())
-            showActivity(RegisterLoginActivity.class);
-        else
             showActivity(MainActivity.class);
+        else
+            showActivity(RegisterLoginActivity.class);
+
     }
 
     private void showActivity(Class<?> aClass) {

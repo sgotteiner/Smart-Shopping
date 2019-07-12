@@ -16,15 +16,15 @@ import com.google.firebase.storage.StorageReference;
 
 public class DownloadImage {
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-    private PatchStorage patchStorageImage;
-    private String imageName;
+    private Patch mPatchStorageImage;
+    private String mImageName;
     private IDownloadImage mListener;
 
 
 
-    public DownloadImage(PatchStorage patchStorageImage, String imageName, IDownloadImage mListener) {
-        this.patchStorageImage = patchStorageImage;
-        this.imageName = patchStorageImage.name().equals(PatchStorage.POSTS_IMAGES.name())?imageName:imageName.toLowerCase().replace(" ", "_");
+    public DownloadImage(Patch patchStorageImage, String imageName, IDownloadImage mListener) {
+        this.mPatchStorageImage = patchStorageImage;
+        this.mImageName = patchStorageImage.name().equals(Patch.POSTS_IMAGES.name())?imageName:imageName.toLowerCase().replace(" ", "_");
         this.mListener = mListener;
     }
 
@@ -36,7 +36,7 @@ public class DownloadImage {
 
     public void startLoading() {
 
-        mStorageRef.child(patchStorageImage.name()).child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        mStorageRef.child(mPatchStorageImage.name()).child(mImageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onSuccess(Uri uri) {

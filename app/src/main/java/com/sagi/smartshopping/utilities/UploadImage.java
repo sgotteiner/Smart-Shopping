@@ -18,13 +18,13 @@ import java.io.ByteArrayOutputStream;
 
 public class UploadImage {
 
-    private PatchStorage mPatchStorageImage;
+    private Patch mPatchStorageImage;
     private String mImageName;
     private Bitmap mBitmap;
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
     private IUploadImage mListener;
 
-    public UploadImage(PatchStorage patchStorageImage, String imageName, Bitmap bitmap, IUploadImage mListener) {
+    public UploadImage(Patch patchStorageImage, String imageName, Bitmap bitmap, IUploadImage mListener) {
         this.mPatchStorageImage = patchStorageImage;
         this.mImageName = imageName;
         this.mBitmap = bitmap;

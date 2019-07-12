@@ -3,6 +3,21 @@
     <string name="splash_screen">Splash Screen</string>
     <string name="app_name" translatable="false">Smart Shopping</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-</resources>
+
+
+
+    <array name="categories">
+        <item>"מרפאות"</item>
+        <item>"בגדי נשים"</item>
+        <item>"פנאי"</item>
+        <item>"בגדי גברים"</item>
+        <item>"אוכל"</item>
+        <item>"אלקטרוניקה"</item>
+        <item>"תכשיטים"</item>
+        <item>"ספרים"</item>
+        <item>"אופטיקה"</item>
+        <item>"מוצרים לבית"</item>
+        <item>"סידורים"</item>
+    </array>
+
+ </resources>

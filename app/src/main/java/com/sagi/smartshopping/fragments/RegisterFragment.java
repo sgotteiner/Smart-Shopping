@@ -36,16 +36,16 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
 
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 20;
-    private EditText edtEmail, edtPass, edtFirstName, edtLastName;
-    private CheckBox checkBoxRememberMe;
-    private Button btnRegister, btnCancel, btnDate;
-    private boolean isRememberMe = false;
-    private long dateBirthDay = -1;
-    private ImageView imgProfile;
+    private EditText mEdtEmail, mEdtPass, mEdtFirstName, mEdtLastName;
+    private CheckBox mCheckBoxRememberMe;
+    private Button mBtnRegister, mBtnCancel, mBtnDate;
+    private boolean mIsRememberMe = false;
+    private long mDateBirthDay = -1;
+    private ImageView mImgProfile;
     private final int PICK_IMAGE = 1;
-    private Bitmap newProfilePic = null;
-    private User user;
-    private ProgressDialog progressDialog;
+    private Bitmap mNewProfilePic = null;
+    private User mUser;
+    private ProgressDialog mProgressDialog;
 
 
     private OnFragmentInteractionListener mListener;
@@ -81,59 +81,59 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        progressDialog = new ProgressDialog(getContext());
+        mProgressDialog = new ProgressDialog(getContext());
         loadViews(view);
         loadListeners();
     }
 
     private void loadViews(View view) {
-        edtEmail = view.findViewById(R.id.edtEmailRegister);
-        edtPass = view.findViewById(R.id.edtPassRgister);
-        edtFirstName = view.findViewById(R.id.edtFirstName);
-        edtLastName = view.findViewById(R.id.edtLastName);
-        checkBoxRememberMe = view.findViewById(R.id.checkBoxRememberMeRegister);
-        btnRegister = view.findViewById(R.id.btnRegister);
-        btnCancel = view.findViewById(R.id.btnCancel);
-        btnDate = view.findViewById(R.id.btnDate);
-        imgProfile = view.findViewById(R.id.imgProfile);
+        mEdtEmail = view.findViewById(R.id.edtEmailRegister);
+        mEdtPass = view.findViewById(R.id.edtPassRgister);
+        mEdtFirstName = view.findViewById(R.id.edtFirstName);
+        mEdtLastName = view.findViewById(R.id.edtLastName);
+        mCheckBoxRememberMe = view.findViewById(R.id.checkBoxRememberMeRegister);
+        mBtnRegister = view.findViewById(R.id.btnRegister);
+        mBtnCancel = view.findViewById(R.id.btnCancel);
+        mBtnDate = view.findViewById(R.id.btnDate);
+        mImgProfile = view.findViewById(R.id.imgProfile);
 
     }
 
     private void loadListeners() {
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edtEmail.getText().toString().trim();
-                String pass = edtPass.getText().toString().trim();
-                String fName = edtFirstName.getText().toString().trim().toLowerCase();
-                String lName = edtLastName.getText().toString().trim();
+                String email = mEdtEmail.getText().toString().trim();
+                String pass = mEdtPass.getText().toString().trim();
+                String fName = mEdtFirstName.getText().toString().trim().toLowerCase();
+                String lName = mEdtLastName.getText().toString().trim();
 
-                if (!Utils.isValid(email, pass, fName, lName, dateBirthDay, getContext()))
+                if (!Utils.isValid(email, pass, fName, lName, mDateBirthDay, getContext()))
                     return;
-                user = new User(edtFirstName.getText().toString(), edtLastName.getText().toString(), edtEmail.getText().toString(), dateBirthDay, System.currentTimeMillis());
+                mUser = new User(mEdtFirstName.getText().toString(), mEdtLastName.getText().toString(), mEdtEmail.getText().toString(), mDateBirthDay, System.currentTimeMillis());
                 showProgressDialod();
-                mListener.createUser(user, edtPass.getText().toString(), isRememberMe, newProfilePic);
+                mListener.createUser(mUser, mEdtPass.getText().toString(), mIsRememberMe, mNewProfilePic);
             }
         });
-        checkBoxRememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mCheckBoxRememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
-                isRememberMe = isCheck;
+                mIsRememberMe = isCheck;
             }
         });
-        btnDate.setOnClickListener(new View.OnClickListener() {
+        mBtnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateBirthDay = Utils.getTimeStampFromDate(year, month, day);
+                        mDateBirthDay = Utils.getTimeStampFromDate(year, month, day);
                     }
                 }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
         });
-        imgProfile.setOnClickListener(new View.OnClickListener() {
+        mImgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -146,7 +146,7 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
 
             }
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.showLoginFragment();
@@ -155,11 +155,11 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
     }
 
     private void showProgressDialod() {
-        progressDialog.setMessage("try login your profile");
-        progressDialog.setTitle("Waiting");
-        progressDialog.setCancelable(false);
-        progressDialog.setIcon(R.drawable.save);
-        progressDialog.show();
+        mProgressDialog.setMessage("try login your profile");
+        mProgressDialog.setTitle("Waiting");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setIcon(R.drawable.save);
+        mProgressDialog.show();
     }
 
 
@@ -176,10 +176,10 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             Uri uriImageGallery = data.getData();
 
-            imgProfile.setBackgroundResource(0);
-            newProfilePic = ImageUtils.handleImageGallery(uriImageGallery, getContext());
-            imgProfile.setImageBitmap(newProfilePic);
-            newProfilePic = ImageUtils.scaleDown(newProfilePic, 200, false);
+            mImgProfile.setBackgroundResource(0);
+            mNewProfilePic = ImageUtils.handleImageGallery(uriImageGallery, getContext());
+            mImgProfile.setImageBitmap(mNewProfilePic);
+            mNewProfilePic = ImageUtils.scaleDown(mNewProfilePic, 200, false);
 
         }
     }
@@ -206,7 +206,7 @@ public class RegisterFragment extends Fragment implements IWaitingProgressBar {
 
     @Override
     public void stopProgressBar() {
-        progressDialog.dismiss();
+        mProgressDialog.dismiss();
     }
 
     public interface OnFragmentInteractionListener {

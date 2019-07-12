@@ -2,4 +2,21 @@
 <resources>
     <string name="search">חיפוש</string>
     <string name="splash_screen">מסך פתיח</string>
+
+
+
+    <array name="categories">
+        <item>"מרפאות"</item>
+        <item>"בגדי נשים"</item>
+        <item>"פנאי"</item>
+        <item>"בגדי גברים"</item>
+        <item>"אוכל"</item>
+        <item>"אלקטרוניקה"</item>
+        <item>"תכשיטים"</item>
+        <item>"ספרים"</item>
+        <item>"אופטיקה"</item>
+        <item>"מוצרים לבית"</item>
+        <item>"סידורים"</item>
+    </array>
+
 </resources>

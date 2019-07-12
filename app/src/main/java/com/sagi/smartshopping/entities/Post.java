@@ -1,61 +1,91 @@
 package com.sagi.smartshopping.entities;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
-public class Post {
+public class Post implements Serializable {
 
-    private long timestamp;
-    private String username;
-    private String userProfile;
-    private String key;
-    private String postBody;
+    private long mTimestamp;
+    private String mUsername;
+    private String mPostBody;
+    private String mCategory;
+    private String mKey;
+    private float mPrice;
+    private String mTitle;
+
+    public float getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(float mPrice) {
+        this.mPrice = mPrice;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public Post(long mTimestamp, String mUsername, String mPostBody, String mCategory, String mKey, float mPrice, String mTitle) {
+        this.mTimestamp = mTimestamp;
+        this.mUsername = mUsername;
+        this.mPostBody = mPostBody;
+        this.mCategory = mCategory;
+        this.mKey = mKey;
+        this.mPrice = mPrice;
+        this.mTitle = mTitle;
+    }
 
     public Post(){}
 
-    public Post(long timestamp, String username, String key, String postBody) {
-        this.timestamp = timestamp;
-        this.username = username;
-        this.key = key;
-        this.postBody = postBody;
+    public Post(long mTimestamp, String mUsername, String key, String mPostBody, String mCategory) {
+        this.mTimestamp = mTimestamp;
+        this.mUsername = mUsername;
+        this.mPostBody = mPostBody;
+        this.mCategory = mCategory;
+        this.mKey = key;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String mCategory) {
+        this.mCategory = mCategory;
     }
 
     public long getTimestamp() {
-        return timestamp;
+        return mTimestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimestamp(long mTimestamp) {
+        this.mTimestamp = mTimestamp;
     }
 
     public String getUsername() {
-        return username;
+        return mUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String mUsername) {
+        this.mUsername = mUsername;
     }
 
-    public String getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(String userProfile) {
-        this.userProfile = userProfile;
-    }
 
     public String getKey() {
-        return key;
+        return mKey;
     }
 
     public void setKey(String key) {
-        this.key = key;
+        this.mKey = key;
     }
 
     public String getPostBody() {
-        return postBody;
+        return mPostBody;
     }
 
-    public void setPostBody(String postBody) {
-        this.postBody = postBody;
+    public void setPostBody(String mPostBody) {
+        this.mPostBody = mPostBody;
     }
 }

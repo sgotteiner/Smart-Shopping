@@ -13,7 +13,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferencesHelper {
 
-    private static SharedPreferences preferences;
+    private static SharedPreferences mPreferences;
     private static SharedPreferencesHelper mInstance;
 
     private final String IS_ALREADY_LOGIN = "IS_ALREADY_LOGIN";
@@ -28,7 +28,7 @@ public class SharedPreferencesHelper {
 
     private SharedPreferencesHelper(Context context) {
         final String SETTINGS_APP = "SETTINGS_APP";
-        preferences = context.getSharedPreferences(SETTINGS_APP, MODE_PRIVATE);
+        mPreferences = context.getSharedPreferences(SETTINGS_APP, MODE_PRIVATE);
     }
 
     public static SharedPreferencesHelper getInstance(Context context) {
@@ -39,26 +39,26 @@ public class SharedPreferencesHelper {
     }
 
     public boolean isAlreadyLogin() {
-        return preferences.getBoolean(IS_ALREADY_LOGIN, false);
+        return mPreferences.getBoolean(IS_ALREADY_LOGIN, false);
     }
 
     public int getLastCountRequest() {
-        return preferences.getInt(LAST_COUNT_REQUEST, 0);
+        return mPreferences.getInt(LAST_COUNT_REQUEST, 0);
     }
 
     public void setIsAlreadyLogin(boolean isAlreadyLogin) {
-        preferences.edit().putBoolean(IS_ALREADY_LOGIN, isAlreadyLogin).apply();
+        mPreferences.edit().putBoolean(IS_ALREADY_LOGIN, isAlreadyLogin).apply();
     }
 
     public User getUser() {
-        String firstName = preferences.getString(FIRST_NAME, null);
-        String lastName = preferences.getString(LAST_NAME, null);
-        String email = preferences.getString(EMAIL, null);
-        String urlProfile = preferences.getString(URL_PROFILE, null);
-        long birthday = preferences.getLong(BIRTHDAY, -1);
+        String firstName = mPreferences.getString(FIRST_NAME, null);
+        String lastName = mPreferences.getString(LAST_NAME, null);
+        String email = mPreferences.getString(EMAIL, null);
+        String urlProfile = mPreferences.getString(URL_PROFILE, null);
+        long birthday = mPreferences.getLong(BIRTHDAY, -1);
 
-        long lastTimeSeen = preferences.getLong(LAST_TIME_SEEN, -1);
-        boolean isManagerApp = preferences.getBoolean(IS_MANAGER_APP, false);
+        long lastTimeSeen = mPreferences.getLong(LAST_TIME_SEEN, -1);
+        boolean isManagerApp = mPreferences.getBoolean(IS_MANAGER_APP, false);
 
         if (email == null || birthday == -1)
             return null;
@@ -67,23 +67,23 @@ public class SharedPreferencesHelper {
     }
 
     public void setUser(User user) {
-        preferences.edit().putString(FIRST_NAME, user.getFirstName()).apply();
-        preferences.edit().putString(LAST_NAME, user.getLastName()).apply();
-        preferences.edit().putString(EMAIL, user.getEmail()).apply();
-        preferences.edit().putString(URL_PROFILE, user.getEmail()).apply();
-        preferences.edit().putLong(BIRTHDAY, user.getBirthDay()).apply();
-        preferences.edit().putLong(LAST_TIME_SEEN, user.getLastTimeSeen()).apply();
+        mPreferences.edit().putString(FIRST_NAME, user.getFirstName()).apply();
+        mPreferences.edit().putString(LAST_NAME, user.getLastName()).apply();
+        mPreferences.edit().putString(EMAIL, user.getEmail()).apply();
+        mPreferences.edit().putString(URL_PROFILE, user.getEmail()).apply();
+        mPreferences.edit().putLong(BIRTHDAY, user.getBirthDay()).apply();
+        mPreferences.edit().putLong(LAST_TIME_SEEN, user.getLastTimeSeen()).apply();
 //        preferences.edit().putFloat(LEVEL,user.getLevelUser()).commit();
-        preferences.edit().putBoolean(IS_MANAGER_APP, user.isManagerApp()).apply();
+        mPreferences.edit().putBoolean(IS_MANAGER_APP, user.ismIsManagerApp()).apply();
     }
 
 
     public void setLastCountRequest(int total) {
-        preferences.edit().putInt(LAST_COUNT_REQUEST, total).apply();
+        mPreferences.edit().putInt(LAST_COUNT_REQUEST, total).apply();
     }
 
 
     public void resetSharedPreferences() {
-        preferences.edit().clear().apply();
+        mPreferences.edit().clear().apply();
     }
 }

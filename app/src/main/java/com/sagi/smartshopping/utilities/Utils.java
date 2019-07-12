@@ -103,4 +103,11 @@ public class Utils {
     public static String geteFirstLattersUpperCase(String text ) {
         return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
     }
+
+    public static long getStartTimeStamp() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.DAY_OF_WEEK,-30);
+         return calendar.getTimeInMillis();
+    }
 }

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="80dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:layout_marginLeft="15dp">
 
     <TextView
-        android:id="@+id/txtUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
 
     <ImageView
         android:id="@+id/imgPost"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/txtUsername"
-        android:src="@drawable/save"/>
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/txtPrice"
+        android:src="@drawable/gallery" />
 
 </RelativeLayout>
