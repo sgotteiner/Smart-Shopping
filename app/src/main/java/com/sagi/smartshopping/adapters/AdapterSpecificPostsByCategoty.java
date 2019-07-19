@@ -1,15 +1,14 @@
 package com.sagi.smartshopping.adapters;
 
 import android.content.Context;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
@@ -18,23 +17,21 @@ import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<AdapterPostsInRecyclerCategories.PlaceHolder> {
+public class AdapterSpecificPostsByCategoty extends RecyclerView.Adapter<AdapterSpecificPostsByCategoty.PlaceHolder> {
 
-    private List<Post> mPosts;
-    private LayoutInflater mLayoutInflater;
+    private ArrayList<Post> mAllSpecificPosts;
     private Context mContext;
+    private LayoutInflater mLayoutInflater;
     private IOpenPost mOpenPost;
 
-
-    public AdapterPostsInRecyclerCategories(List<Post> posts, Context context, IOpenPost iOpenPost) {
-        this.mPosts = posts;
-        this.mLayoutInflater = LayoutInflater.from(context);
+    public AdapterSpecificPostsByCategoty(ArrayList<Post> allSpecificPostsPosts, Context context, IOpenPost iOpenPost) {
+        this.mAllSpecificPosts = allSpecificPostsPosts;
         this.mContext = context;
+        this.mLayoutInflater = LayoutInflater.from(context);
         this.mOpenPost = iOpenPost;
     }
-
 
     public class PlaceHolder extends RecyclerView.ViewHolder {
 
@@ -57,9 +54,9 @@ public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<Adapt
     }
 
     @Override
-    public void onBindViewHolder(final AdapterPostsInRecyclerCategories.PlaceHolder holder, final int position) {
+    public void onBindViewHolder(final AdapterSpecificPostsByCategoty.PlaceHolder holder, final int position) {
 
-        final Post post = mPosts.get(position);
+        final Post post = mAllSpecificPosts.get(position);
         holder.mTxtPrice.setText(String.valueOf(post.getPrice()));
         new DownloadImage(Patch.POSTS_IMAGES, post.getTitle(), new DownloadImage.IDownloadImage() {
             @Override
@@ -82,7 +79,7 @@ public class AdapterPostsInRecyclerCategories extends RecyclerView.Adapter<Adapt
 
     @Override
     public int getItemCount() {
-        return mPosts.size();
+        return mAllSpecificPosts.size();
     }
 
 }

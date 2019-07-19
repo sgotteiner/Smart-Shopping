@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.sagi.smartshopping.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,13 +53,11 @@ public class Utils {
     }
 
     public static boolean isValid(String email, String fName, String lName,long dateBirthDay, Context context) {
-
-
         if ( email.equals("") || fName.equals("") || lName.equals("")) {
-            Toast.makeText(context, "must fill all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.fill_fields), Toast.LENGTH_SHORT).show();
             return false;
         } else   if (dateBirthDay == -1) {
-            Toast.makeText(context, "must choose a birth date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.choose_birth_date), Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -65,7 +65,6 @@ public class Utils {
     }
 
     public static boolean isValid(String email, String pass, String fName, String lName,long dateBirthDay, Context context) {
-
         if (pass.equals("") || email.equals("") || fName.equals("") || lName.equals("")) {
             Toast.makeText(context, "must fill all fields", Toast.LENGTH_SHORT).show();
             return false;
@@ -82,7 +81,6 @@ public class Utils {
             return true;
         }
     }
-
 
     public static void hideKeyboardFrom(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

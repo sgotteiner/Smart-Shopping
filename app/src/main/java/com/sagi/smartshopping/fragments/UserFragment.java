@@ -65,7 +65,9 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser && getContext()!=null)
-            Toast.makeText(getContext(), "Visible UserFragment", Toast.LENGTH_SHORT).show();
+            loadImageProfile();
+
+//        Toast.makeText(getContext(), "Visible UserFragment", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -99,15 +101,14 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
         super.onViewCreated(view, savedInstanceState);
 
         //progressDialog = new ProgressDialog(getContext());
-        user = SharedPreferencesHelper.getInstance(getContext()).getUser();
+        user = SharedPreferencesHelper.getInstance( ).getUser();
         dateBirthDay = user.getBirthDay();
 
-        loadAllFields(view);
+       loadAllFields(view);
 
-        imgProfilePicture = view.findViewById(R.id.imgProfilePicture);
-        loadImageProfile();
 
-        btnSave = view.findViewById(R.id.btnSave);
+        //loadImageProfile();
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,6 +206,8 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
     }
 
     private void loadAllFields(View view) {
+        imgProfilePicture = view.findViewById(R.id.imgProfilePicture);
+        btnSave = view.findViewById(R.id.btnSave);
         edtFName = view.findViewById(R.id.edtFName);
         edtFName.setText(getUserFirstNameWithUpperCase(user.getFirstName()));
         edtLName = view.findViewById(R.id.edtLName);
@@ -244,7 +247,7 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
         user.setFirstName(edtFName.getText().toString().toLowerCase());
         user.setLastName(edtLName.getText().toString());
         user.setBirthDay(dateBirthDay);
-        SharedPreferencesHelper.getInstance(getContext()).setUser(user);
+        SharedPreferencesHelper.getInstance( ).setUser(user);
     }
 
     @Override

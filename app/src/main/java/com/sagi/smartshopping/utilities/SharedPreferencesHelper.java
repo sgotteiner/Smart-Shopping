@@ -3,6 +3,7 @@ package com.sagi.smartshopping.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.sagi.smartshopping.SmartShoppingApp;
 import com.sagi.smartshopping.entities.User;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -24,6 +25,7 @@ public class SharedPreferencesHelper {
     private final String BIRTHDAY = "BIRTHDAY";
     private final String LAST_TIME_SEEN = "LAST_TIME_SEEN";
     private final String LAST_COUNT_REQUEST = "LAST_COUNT_REQUEST";
+    private final String LAST_TIMESTAMP_REQUEST_POSTS = "LAST_TIMESTAMP_REQUEST_POSTS";
     private final String IS_MANAGER_APP = "IS_MANAGER_APP";
 
     private SharedPreferencesHelper(Context context) {
@@ -31,9 +33,9 @@ public class SharedPreferencesHelper {
         mPreferences = context.getSharedPreferences(SETTINGS_APP, MODE_PRIVATE);
     }
 
-    public static SharedPreferencesHelper getInstance(Context context) {
+    public static SharedPreferencesHelper getInstance() {
         if (mInstance == null)
-            mInstance = new SharedPreferencesHelper(context);
+            mInstance = new SharedPreferencesHelper(SmartShoppingApp.getContext());
 
         return mInstance;
     }
@@ -77,7 +79,6 @@ public class SharedPreferencesHelper {
         mPreferences.edit().putBoolean(IS_MANAGER_APP, user.ismIsManagerApp()).apply();
     }
 
-
     public void setLastCountRequest(int total) {
         mPreferences.edit().putInt(LAST_COUNT_REQUEST, total).apply();
     }
@@ -85,5 +86,12 @@ public class SharedPreferencesHelper {
 
     public void resetSharedPreferences() {
         mPreferences.edit().clear().apply();
+    }
+
+    public double getLastPostRequest() {
+       return mPreferences.getLong(LAST_TIMESTAMP_REQUEST_POSTS, Utils.getStartTimeStamp());
+    }
+    public void setLastPostRequest(long timeStamp) {
+        mPreferences.edit().putLong(LAST_TIMESTAMP_REQUEST_POSTS,timeStamp).apply();
     }
 }

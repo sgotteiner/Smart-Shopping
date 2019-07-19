@@ -1,7 +1,6 @@
 package com.sagi.smartshopping.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,16 +11,14 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.adapters.AdapterPostsInRecyclerCategories;
 import com.sagi.smartshopping.adapters.AdapterViewPagerPages;
-import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.IContainerPagesFragment;
-import com.sagi.smartshopping.interfaces.IPostFragment;
+import com.sagi.smartshopping.interfaces.ISwitchFragment;
 
-public class ContainerPagesFragment extends Fragment implements IContainerPagesFragment {
+import static com.sagi.smartshopping.adapters.AdapterViewPagerPages.POST_PAGE_POS;
+
+public class ContainerPagesFragment extends Fragment implements ISwitchFragment {
 
     private ViewPager mViewPagerPages;
     private OnFragmentInteractionListener mListener;
@@ -65,17 +62,12 @@ public class ContainerPagesFragment extends Fragment implements IContainerPagesF
     }
 
     @Override
-    public void switchToPostFragment() {
-        mViewPagerPages.setCurrentItem(1);
-    }
-
-    @Override
-    public void switchToSpecificPostsFragment() {
-        mViewPagerPages.setCurrentItem(2);
+    public void switchFragment(int fragmentName) {
+        mViewPagerPages.setCurrentItem(fragmentName);
     }
 
     public interface OnFragmentInteractionListener {
-        void registerEventFromMain(IContainerPagesFragment iContainerPagesFragment);
+        void registerEventFromMain(ISwitchFragment iSwitchFragment);
 
     }
 }

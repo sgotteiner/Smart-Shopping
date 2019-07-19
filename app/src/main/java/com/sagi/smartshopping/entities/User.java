@@ -23,10 +23,6 @@ public class User implements Serializable {
         return mIsManagerApp;
     }
 
-    public void setmIsManagerApp(boolean mIsManagerApp) {
-        this.mIsManagerApp = mIsManagerApp;
-    }
-
     public  String textEmailForFirebase() {
        return  Utils.textEmailForFirebase(mEmail);
     }

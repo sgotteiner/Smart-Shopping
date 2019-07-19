@@ -1,14 +1,15 @@
 package com.sagi.smartshopping.adapters;
 
 import android.content.Context;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
@@ -17,21 +18,23 @@ import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class AdapterSpecificPosts extends RecyclerView.Adapter<AdapterSpecificPosts.PlaceHolder> {
+public class AdapterItemPost extends RecyclerView.Adapter<AdapterItemPost.PlaceHolder> {
 
-    private ArrayList<Post> mAllSpecificPosts;
-    private Context mContext;
+    private List<Post> mPosts;
     private LayoutInflater mLayoutInflater;
+    private Context mContext;
     private IOpenPost mOpenPost;
 
-    public AdapterSpecificPosts(ArrayList<Post> allSpecificPostsPosts, Context context, IOpenPost iOpenPost) {
-        this.mAllSpecificPosts = allSpecificPostsPosts;
-        this.mContext = context;
+
+    public AdapterItemPost(List<Post> posts, Context context, IOpenPost iOpenPost) {
+        this.mPosts = posts;
         this.mLayoutInflater = LayoutInflater.from(context);
+        this.mContext = context;
         this.mOpenPost = iOpenPost;
     }
+
 
     public class PlaceHolder extends RecyclerView.ViewHolder {
 
@@ -54,9 +57,9 @@ public class AdapterSpecificPosts extends RecyclerView.Adapter<AdapterSpecificPo
     }
 
     @Override
-    public void onBindViewHolder(final AdapterSpecificPosts.PlaceHolder holder, final int position) {
+    public void onBindViewHolder(final AdapterItemPost.PlaceHolder holder, final int position) {
 
-        final Post post = mAllSpecificPosts.get(position);
+        final Post post = mPosts.get(position);
         holder.mTxtPrice.setText(String.valueOf(post.getPrice()));
         new DownloadImage(Patch.POSTS_IMAGES, post.getTitle(), new DownloadImage.IDownloadImage() {
             @Override
@@ -79,7 +82,7 @@ public class AdapterSpecificPosts extends RecyclerView.Adapter<AdapterSpecificPo
 
     @Override
     public int getItemCount() {
-        return mAllSpecificPosts.size();
+        return mPosts.size();
     }
 
 }

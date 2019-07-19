@@ -57,8 +57,6 @@ public class UploadImage {
                     mListener.onProgress((int)progress);
             }
         });
-
-
     }
 
     public interface IUploadImage {

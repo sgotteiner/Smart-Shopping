@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.adapters.AdapterSpecificPosts;
+import com.sagi.smartshopping.adapters.AdapterSpecificPostsByCategoty;
 import com.sagi.smartshopping.entities.Post;
 import com.sagi.smartshopping.interfaces.IOpenPost;
 import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
@@ -27,7 +27,7 @@ import java.util.List;
 public class SpecificPostsFragment extends Fragment implements ISpecificPostFragment, IOpenPost {
 
     private OnFragmentInteractionListener mListener;
-    private AdapterSpecificPosts mAdapterSpecificPosts;
+    private AdapterSpecificPostsByCategoty mAdapterSpecificPostsByCategoty;
     private ArrayList<Post> mAllSpecificPosts;
     private RecyclerView mRecyclerViewSpecificPosts;
 
@@ -79,11 +79,11 @@ public class SpecificPostsFragment extends Fragment implements ISpecificPostFrag
     @Override
     public void showSpecificPosts(List<Post> specificPosts) {
         mAllSpecificPosts = (ArrayList<Post>) specificPosts;
-        mAdapterSpecificPosts = new AdapterSpecificPosts(mAllSpecificPosts, getContext(),this);
+        mAdapterSpecificPostsByCategoty = new AdapterSpecificPostsByCategoty(mAllSpecificPosts, getContext(),this);
         mRecyclerViewSpecificPosts.setHasFixedSize(true);
         mRecyclerViewSpecificPosts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mRecyclerViewSpecificPosts.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mRecyclerViewSpecificPosts.setAdapter(mAdapterSpecificPosts);
+        mRecyclerViewSpecificPosts.setAdapter(mAdapterSpecificPostsByCategoty);
         Toast.makeText(getContext(), "boom", Toast.LENGTH_SHORT).show();
     }
 

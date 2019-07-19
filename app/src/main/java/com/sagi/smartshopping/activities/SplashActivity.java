@@ -10,21 +10,25 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
-import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION = 2;
+    private TextView mTxtHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+        mTxtHeader = findViewById(R.id.txtHeader);
+
+
 
         if (isNeedAskPermission())
             requestPermissions();
@@ -71,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void chooseScreen() {
-        if (SharedPreferencesHelper.getInstance(this).isAlreadyLogin())
+        if (SharedPreferencesHelper.getInstance( ).isAlreadyLogin())
             showActivity(MainActivity.class);
         else
             showActivity(RegisterLoginActivity.class);

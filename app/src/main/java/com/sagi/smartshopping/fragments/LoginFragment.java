@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment implements IWaitingProgressBar {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
                 mIsRememberMe = isCheck;
-                SharedPreferencesHelper.getInstance(getContext()).setIsAlreadyLogin(isCheck);
+                SharedPreferencesHelper.getInstance().setIsAlreadyLogin(isCheck);
             }
         });
     }

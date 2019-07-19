@@ -84,7 +84,7 @@ public class RegisterLoginActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            SharedPreferencesHelper.getInstance(RegisterLoginActivity.this).setUser(user);
+                            SharedPreferencesHelper.getInstance( ).setUser(user);
                             mMyRef.child(FireBaseConstant.USERS_TABLE).child(user.textEmailForFirebase()).setValue(user);
                             if (newProfilePic != null)
                                 uploadBitmap(newProfilePic, user, isRememberMe);
@@ -124,7 +124,7 @@ public class RegisterLoginActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User userProfile = dataSnapshot.getValue(User.class);
-                SharedPreferencesHelper.getInstance(RegisterLoginActivity.this).setUser(userProfile);
+                SharedPreferencesHelper.getInstance( ).setUser(userProfile);
                 if (mIWaitingProgressBar != null)
                     mIWaitingProgressBar.stopProgressBar();
                 showMainActivity(isRememberMe);
@@ -156,7 +156,7 @@ public class RegisterLoginActivity extends AppCompatActivity
     }
 
     private void showMainActivity(boolean isRememberMe) {
-        SharedPreferencesHelper.getInstance(this).setIsAlreadyLogin(isRememberMe);
+        SharedPreferencesHelper.getInstance( ).setIsAlreadyLogin(isRememberMe);
         Intent intent = new Intent(RegisterLoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

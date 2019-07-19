@@ -2,6 +2,14 @@
     <string name="search">Search</string>
     <string name="splash_screen">Splash Screen</string>
     <string name="app_name" translatable="false">Smart Shopping</string>
+    <string name="create_a_new_post">Create a new post</string>
+    <string name="title">כותרת</string>
+    <string name="fill_fields">must fill all fields</string>
+    <string name="choose_birth_date">must choose a birth date</string>
+
+    <string name="price">מחיר</string>
+    <string name="category">קטגוריה</string>
+    <string name="description">תיאור</string>
 
 
 

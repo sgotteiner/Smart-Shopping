@@ -22,28 +22,27 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.interfaces.ICreatePostFragment;
-import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
-import com.sagi.smartshopping.utilities.constant.GeneralConstants;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreatePostFragment extends Fragment implements ICreatePostFragment {
 
-    private String[] mListAllNamesCategories = new String[1];
+    private String[] mListAllNamesCategories=new String[1]  ;
     private OnFragmentInteractionListener mListener;
     private ImageView mImgPostImage, mImgSave;
     private Bitmap mBitmapPost;
-    private EditText mEdtPostBody, mEdtCategory, mEdtPostPrice, mEdtPostTitle;
+    private EditText mEdtPostBody, mEdtPostPrice, mEdtPostTitle;
     private Spinner mSpnCategory;
+    private TextView mTxtCategory;
     private final int IMG_POST_FROM_GALLERY = 1;
     private boolean isNewCategory;
     private DatabaseReference myRef;
@@ -65,51 +64,36 @@ public class CreatePostFragment extends Fragment implements ICreatePostFragment 
 
         myRef = FirebaseDatabase.getInstance().getReference();
 
-        mListAllNamesCategories[0] = "press to select";
+        loadViews(view);
 
-        mImgPostImage = view.findViewById(R.id.imgPostImage);
         mImgPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImageFromGallery();
             }
         });
-        mImgSave = view.findViewById(R.id.imgSave);
         mImgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.savePost(mBitmapPost, mEdtPostBody.getText().toString(), mEdtCategory.getText().toString(), Float.parseFloat(mEdtPostPrice.getText().toString()), mEdtPostTitle.getText().toString());
+                mListener.savePost(mBitmapPost, mEdtPostBody.getText().toString(), mTxtCategory.getText().toString(), Float.parseFloat(mEdtPostPrice.getText().toString()), mEdtPostTitle.getText().toString());
             }
         });
-        mEdtPostBody = view.findViewById(R.id.edtPostBody);
-        mEdtPostPrice = view.findViewById(R.id.edtPostPrice);
-        mEdtPostTitle = view.findViewById(R.id.edtPostTitle);
-        mEdtCategory = view.findViewById(R.id.edtCategory);
-        mEdtCategory.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
+//        loadCategoriesToSpnCategories();
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item,getResources().getStringArray(R.array.categories));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpnCategory.setAdapter(adapter);
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                isNewCategory = isNewCategoryCreated(editable.toString(), mSpnCategory);
-            }
-        });
-        mSpnCategory = view.findViewById(R.id.spnCategory);
-        loadCategoriesToSpnCategories();
         mSpnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0)
                     return;
 
-                mEdtCategory.setText(adapterView.getItemAtPosition(i).toString());
+                mTxtCategory.setText(adapterView.getItemAtPosition(i).toString());
                 isNewCategory = false;
             }
 
@@ -118,6 +102,16 @@ public class CreatePostFragment extends Fragment implements ICreatePostFragment 
 
             }
         });
+    }
+
+    private void loadViews(View view) {
+        mImgPostImage = view.findViewById(R.id.imgPostImage);
+        mImgSave = view.findViewById(R.id.imgSave);
+        mSpnCategory = view.findViewById(R.id.spnCategory);
+        mEdtPostBody = view.findViewById(R.id.edtPostBody);
+        mEdtPostPrice = view.findViewById(R.id.edtPostPrice);
+        mEdtPostTitle = view.findViewById(R.id.edtPostTitle);
+        mTxtCategory = view.findViewById(R.id.txtCategory);
     }
 
 
@@ -129,37 +123,13 @@ public class CreatePostFragment extends Fragment implements ICreatePostFragment 
             Toast.makeText(getContext(), "Visible create post", Toast.LENGTH_SHORT).show();
     }
 
-    private void loadCategoriesToSpnCategories() {
-        Log.d("WOW", "Came herer");
-        myRef.child(FireBaseConstant.NAME_CATEGORIES_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int index = 1;
-                mListAllNamesCategories = new String[(int) dataSnapshot.getChildrenCount() + 1];
-                mListAllNamesCategories[0] = "Press to select";
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String category = snapshot.getValue(String.class);
-                    mListAllNamesCategories[index++] = category;
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_dropdown_item,getResources().getStringArray(R.array.categories));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSpnCategory.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
+  
 
     private Boolean isNewCategoryCreated(String category, Spinner spnCategory) {
         for (int i = 1; i < mListAllNamesCategories.length; i++) {
             if (mListAllNamesCategories[i].toLowerCase().equals(category.toLowerCase())) {
                 spnCategory.setSelection(i);
+                mTxtCategory.setText(category);
                 return false;
             }
         }
@@ -225,10 +195,13 @@ public class CreatePostFragment extends Fragment implements ICreatePostFragment 
     @Override
     public void getAllArrNamesCategory(String[] allNamesCategories) {
         mListAllNamesCategories = allNamesCategories;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, allNamesCategories);
+        List<String> list = new ArrayList<>();
+        list.add("press to select");
+        list.addAll(Arrays.asList(allNamesCategories));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpnCategory.setAdapter(adapter);
-        isNewCategoryCreated(mEdtCategory.getText().toString(), mSpnCategory);
+        isNewCategoryCreated(mTxtCategory.getText().toString(), mSpnCategory);
     }
 
     public interface OnFragmentInteractionListener {

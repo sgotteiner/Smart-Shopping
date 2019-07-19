@@ -7,6 +7,7 @@
     tools:context=".fragments.HomepageFragment">
 
     <EditText
+        android:focusable="false"
         android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +16,7 @@
         android:hint="@string/search" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCategories"
+        android:id="@+id/recyclerTitleCategories"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/edtSearch"
@@ -23,9 +24,9 @@
         android:orientation="horizontal" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerPost"
+        android:id="@+id/recyclerAllPostsByCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/recyclerCategories" />
+        android:layout_below="@+id/recyclerTitleCategories" />
 
 </RelativeLayout>

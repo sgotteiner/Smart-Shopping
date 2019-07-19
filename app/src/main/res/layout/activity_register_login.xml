@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.sagi.smartshopping.activities.RegisterLoginActivity">
 
-
-
     <FrameLayout
         android:id="@+id/frameLayoutContainerLogin"
         android:layout_width="match_parent"

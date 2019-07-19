@@ -11,15 +11,15 @@ import com.sagi.smartshopping.R;
 
 import java.util.List;
 
-public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.PlaceHolder> {
+public class AdapterTitleCategory extends RecyclerView.Adapter<AdapterTitleCategory.PlaceHolder> {
 
-    private List<String> mCategoriesList;
+    private List<String> mCategoriesTitleList;
     private LayoutInflater mLayoutInflater;
     private CallbackAdapterCategories mListener;
 
 
-    public AdapterCategories(List<String> categoriesList, Context context, CallbackAdapterCategories callbackAdapterCategories) {
-        this.mCategoriesList = categoriesList;
+    public AdapterTitleCategory(List<String> categoriesTitleList, Context context, CallbackAdapterCategories callbackAdapterCategories) {
+        this.mCategoriesTitleList = categoriesTitleList;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mListener = callbackAdapterCategories;
     }
@@ -27,18 +27,18 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Pl
 
     public class PlaceHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTxtCategories;
+        private TextView mTxtTitleCategories;
 
         public PlaceHolder(View view) {
             super(view);
-            mTxtCategories = view.findViewById(R.id.txtCategories);
+            mTxtTitleCategories = view.findViewById(R.id.txtTitleCategory);
         }
     }
 
 
     @Override
     public PlaceHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_categories, parent, false);
+        View itemView = mLayoutInflater.inflate(R.layout.item_title_category, parent, false);
 
         return new PlaceHolder(itemView);
     }
@@ -46,8 +46,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Pl
     @Override
     public void onBindViewHolder(final PlaceHolder holder, final int position) {
 
-        final String categories = mCategoriesList.get(position);
-        holder.mTxtCategories.setText(categories);
+        final String categories = mCategoriesTitleList.get(position);
+        holder.mTxtTitleCategories.setText(categories);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +60,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Pl
 
     @Override
     public int getItemCount() {
-        return mCategoriesList.size();
+        return mCategoriesTitleList.size();
     }
 
     public interface CallbackAdapterCategories {

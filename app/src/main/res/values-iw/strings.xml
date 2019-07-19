@@ -2,7 +2,13 @@
 <resources>
     <string name="search">חיפוש</string>
     <string name="splash_screen">מסך פתיח</string>
-
+    <string name="title">כותרת</string>
+    <string name="price">מחיר</string>
+    <string name="category">קטגוריה</string>
+    <string name="description">תיאור</string>
+    <string name="fill_fields">must fill all fields</string>
+    <string name="choose_birth_date">must choose a birth date</string>
+    <string name="create_a_new_post">צור פוסט חדש</string>
 
 
     <array name="categories">

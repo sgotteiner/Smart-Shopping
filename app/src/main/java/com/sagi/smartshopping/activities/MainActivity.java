@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sagi.smartshopping.R;
+import com.sagi.smartshopping.adapters.AdapterViewPagerPages;
 import com.sagi.smartshopping.entities.Post;
 import com.sagi.smartshopping.entities.User;
 import com.sagi.smartshopping.fragments.ContainerPagesFragment;
@@ -26,10 +27,10 @@ import com.sagi.smartshopping.fragments.HomepageFragment;
 import com.sagi.smartshopping.fragments.PostFragment;
 import com.sagi.smartshopping.fragments.SpecificPostsFragment;
 import com.sagi.smartshopping.fragments.UserFragment;
-import com.sagi.smartshopping.interfaces.IContainerPagesFragment;
 import com.sagi.smartshopping.interfaces.ICreatePostFragment;
 import com.sagi.smartshopping.interfaces.IPostFragment;
 import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
+import com.sagi.smartshopping.interfaces.ISwitchFragment;
 import com.sagi.smartshopping.utilities.Patch;
 import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements
     private DatabaseReference myRef;
     private IPostFragment mPostFragment;
     private ISpecificPostFragment mSpecificPostFragment;
-    private IContainerPagesFragment mContainerPagesFragment;
+    private ISwitchFragment mSwitchFragment;
 
 
     @Override
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void savePost(Bitmap bitmapPost, String postBody, String category, float price, String title) {
-        User user = SharedPreferencesHelper.getInstance(this).getUser();
+        User user = SharedPreferencesHelper.getInstance( ).getUser();
         String key = myRef.child(FireBaseConstant.POSTS_TABLE).push().getKey();
         Post post = new Post(System.currentTimeMillis(), user.getEmail(), postBody, category, key, price, title);
         myRef.child(FireBaseConstant.POSTS_TABLE).child(key).setValue(post);
@@ -169,16 +170,16 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void openPost(Post post) {
-        if (mContainerPagesFragment != null)
-            mContainerPagesFragment.switchToPostFragment();
+        if (mSwitchFragment != null)
+            mSwitchFragment.switchFragment(AdapterViewPagerPages.POST_PAGE_POS);
         if (mPostFragment != null)
             mPostFragment.openPost(post);
     }
 
     @Override
     public void showSpecificPosts(List<Post> specificPosts) {
-        if (mContainerPagesFragment != null)
-            mContainerPagesFragment.switchToSpecificPostsFragment();
+        if (mSwitchFragment != null)
+            mSwitchFragment.switchFragment(AdapterViewPagerPages.SPECIFIC_PAGE_POS);
         if (mSpecificPostFragment != null)
             mSpecificPostFragment.showSpecificPosts(specificPosts);
     }
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void registerEventFromMain(IContainerPagesFragment iContainerPagesFragment) {
-        this.mContainerPagesFragment = iContainerPagesFragment;
+    public void registerEventFromMain(ISwitchFragment iSwitchFragment) {
+        this.mSwitchFragment = iSwitchFragment;
     }
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,44 +24,34 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.adapters.AdapterPost;
-import com.sagi.smartshopping.adapters.AdapterCategories;
+import com.sagi.smartshopping.activities.viewModles.HomePageViewModel;
+import com.sagi.smartshopping.adapters.AdapterPostsByCategory;
+import com.sagi.smartshopping.adapters.AdapterTitleCategory;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.utilities.MockDataHandler;
 import com.sagi.smartshopping.utilities.Utils;
 import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
-import com.sagi.smartshopping.utilities.constant.GeneralConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.sagi.smartshopping.utilities.constant.GeneralConstants.TIME_STAMP_KEY;
 
-public class HomepageFragment extends Fragment implements AdapterCategories.CallbackAdapterCategories,
-AdapterPost.CallBackAdapterPost{
+public class HomepageFragment extends Fragment implements AdapterTitleCategory.CallbackAdapterCategories,
+        AdapterPostsByCategory.CallBackAdapterPost {
 
     private OnFragmentInteractionListener mListener;
     private ArrayList<String> mAllSuggestionsList = new ArrayList<>();
-    private HashMap<String, List<Post>> mListHashMapCategories = new HashMap<>();
-    private AdapterCategories mAdapterCategories;
-    private AdapterPost mAdapterPost;
+     private AdapterTitleCategory mAdapterTitleCategory;
     private RecyclerView mRecyclerCategories;
-    private RecyclerView mRecyclerPost;
-    private DatabaseReference myRef;
+    private AdapterPostsByCategory mAdapterPostsByCategory;
+    private RecyclerView mRecyclerAllPostsCategories;
     private ArrayList<Post> mAllPosts = new ArrayList<>();
-    private ArrayList<String> mArrCategoriesWithPosts = new ArrayList<>();
+    private HomePageViewModel mViewModel;
 
     public HomepageFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && getContext()!=null)
-            Toast.makeText(getContext(), "Visible home page", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -72,95 +64,54 @@ AdapterPost.CallBackAdapterPost{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        myRef = FirebaseDatabase.getInstance().getReference();
+        mViewModel = ViewModelProviders.of(this).get(HomePageViewModel.class);
+        loadAllCategoriesTitle();
+        mViewModel.getAllPosts();
 
-        loadAllPosts();
 
         loadViews(view);
-        loadMockData();
+        mAllSuggestionsList = new ArrayList<>(Arrays.asList(mViewModel.loadAllCategoriesTitle()));
         configRecyclerViews();
+
+        mViewModel.getHashMapAllPostsCategories().observe(this, new Observer<HashMap<String, List<Post>>>() {
+            @Override
+            public void onChanged(HashMap<String, List<Post>> stringListHashMap) {
+                mAdapterPostsByCategory.notifyDataSetChanged();
+            }
+        });
+
+
 
     }
 
     private void configRecyclerViews() {
-        mAdapterCategories = new AdapterCategories(mAllSuggestionsList, getContext(), this);
-        mAdapterPost = new AdapterPost(mListHashMapCategories, getContext(), mArrCategoriesWithPosts,this);
+        mAdapterTitleCategory = new AdapterTitleCategory(mAllSuggestionsList, getContext(), this);
+        mAdapterPostsByCategory = new AdapterPostsByCategory(mViewModel.getHashMapAllPostsCategories().getValue(), getContext(), mViewModel.getArrCategoriesWithPosts(), this);
 
         mRecyclerCategories.setHasFixedSize(true);
-        mRecyclerPost.setHasFixedSize(true);
+        mRecyclerAllPostsCategories.setHasFixedSize(true);
 
         mRecyclerCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerPost.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerAllPostsCategories.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mRecyclerCategories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mRecyclerPost.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerAllPostsCategories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        mRecyclerCategories.setAdapter(mAdapterCategories);
-        mRecyclerPost.setAdapter(mAdapterPost);
+        mRecyclerCategories.setAdapter(mAdapterTitleCategory);
+        mRecyclerAllPostsCategories.setAdapter(mAdapterPostsByCategory);
     }
 
-
-    private HashMap<String, List<Post>> getMapList() {
-        ArrayList<Post> categoriesListFood = new ArrayList<>();
-        ArrayList<Post> categoriesListGadgets = new ArrayList<>();
-        ArrayList<Post> categoriesListFashion = new ArrayList<>();
-
-        MockDataHandler.getPosts(categoriesListFood);
-        MockDataHandler.getPosts(categoriesListGadgets);
-        MockDataHandler.getPosts(categoriesListFashion);
-
-        HashMap<String, List<Post>> allPostsCategories = new HashMap<>();
-        allPostsCategories.put("אוכל", categoriesListFood);
-        allPostsCategories.put("פנאי", categoriesListGadgets);
-        allPostsCategories.put("בגדי גברים", categoriesListFashion);
-        return allPostsCategories;
-    }
-
-    private void loadMockData() {
-        MockDataHandler.addSuggestions(mAllSuggestionsList);
-//        mListHashMapCategories = getMapList();
-    }
 
     private void loadViews(View view) {
-        mRecyclerCategories = view.findViewById(R.id.recyclerCategories);
-        mRecyclerPost = view.findViewById(R.id.recyclerPost);
+        mRecyclerCategories = view.findViewById(R.id.recyclerTitleCategories);
+        mRecyclerAllPostsCategories = view.findViewById(R.id.recyclerAllPostsByCategories);
     }
 
-    private void loadAllPosts() {
-        Query query = myRef.child(FireBaseConstant.POSTS_TABLE).orderByChild(TIME_STAMP_KEY).startAt(Utils.getStartTimeStamp()).endAt(System.currentTimeMillis()).limitToLast(50);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Post post = snapshot.getValue(Post.class);
-                    mAllPosts.add(post);
-                }
-                sortAllPostsByCategory();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+    private void loadAllCategoriesTitle() {
+        if (mViewModel.loadAllCategoriesTitle() == null)
+            mViewModel.setCategories(getResources().getStringArray(R.array.categories));
 
-            }
-        });
-    }
-
-    private void sortAllPostsByCategory() {
-
-        String[] categoriesArr=  getResources().getStringArray(R.array.categories);
-
-        for (int i = 0; i < categoriesArr.length; i++) {
-            ArrayList<Post> postsCategory = new ArrayList<>();
-            for (int j = mAllPosts.size()-1; j >=0 ; j--) {
-                if (mAllPosts.get(j).getCategory().equals(categoriesArr[i])) {
-                    postsCategory.add(mAllPosts.get(j));
-                }
-            }
-            if (!postsCategory.isEmpty()) {
-                mArrCategoriesWithPosts.add(categoriesArr[i]);
-                mListHashMapCategories.put(categoriesArr[i], postsCategory);
-            }
-        }
     }
 
 
@@ -199,6 +150,7 @@ AdapterPost.CallBackAdapterPost{
 
     public interface OnFragmentInteractionListener {
         void openPost(Post post);
+
         void showSpecificPosts(List<Post> specificPosts);
     }
 }
