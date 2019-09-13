@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.IOpenPost;
 import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
 import com.squareup.picasso.Picasso;
@@ -25,14 +24,14 @@ public class AdapterItemPost extends RecyclerView.Adapter<AdapterItemPost.PlaceH
     private List<Post> mPosts;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private IOpenPost mOpenPost;
+    private ICallbackPost mListener;
 
 
-    public AdapterItemPost(List<Post> posts, Context context, IOpenPost iOpenPost) {
+    public AdapterItemPost(List<Post> posts, Context context, ICallbackPost callbackPost) {
         this.mPosts = posts;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mContext = context;
-        this.mOpenPost = iOpenPost;
+        this.mListener = callbackPost;
     }
 
 
@@ -75,7 +74,8 @@ public class AdapterItemPost extends RecyclerView.Adapter<AdapterItemPost.PlaceH
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOpenPost.openPost(post);
+                if (mListener != null)
+                    mListener.showPost(post);
             }
         });
     }
@@ -85,4 +85,7 @@ public class AdapterItemPost extends RecyclerView.Adapter<AdapterItemPost.PlaceH
         return mPosts.size();
     }
 
+    public interface ICallbackPost {
+        void showPost(Post post);
+    }
 }

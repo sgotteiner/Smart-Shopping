@@ -7,8 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,8 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.sagi.smartshopping.R;
+import com.sagi.smartshopping.activities.viewModles.UserViewModel;
 import com.sagi.smartshopping.entities.User;
 import com.sagi.smartshopping.interfaces.IWaitingProgressBar;
 import com.sagi.smartshopping.utilities.DownloadImage;
@@ -45,26 +45,25 @@ import java.util.Calendar;
 public class UserFragment extends Fragment implements IWaitingProgressBar {
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 20;
+    private final int IMG_FROM_GALLERY = 2;
     private OnFragmentInteractionListener mListener;
     private Button btnSave;
     private ImageView imgProfilePicture;
-    private final int IMG_FROM_GALLERY = 2;
-    private Bitmap bitmapProfile = null;
-    private User user;
     private EditText edtFName, edtLName;
     private TextView txtBirthday, txtEmail, txtMoney;
-    private long dateBirthDay = -1;
     private ProgressDialog progressDialogDownload;
     private ProgressDialog progressDialogUpload;
+    private UserViewModel mViewModel;
 
     public UserFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser && getContext()!=null)
+        if (isVisibleToUser && getContext() != null)
             loadImageProfile();
 
 //        Toast.makeText(getContext(), "Visible UserFragment", Toast.LENGTH_SHORT).show();
@@ -100,11 +99,10 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //progressDialog = new ProgressDialog(getContext());
-        user = SharedPreferencesHelper.getInstance( ).getUser();
-        dateBirthDay = user.getBirthDay();
+        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-       loadAllFields(view);
+
+        loadAllFields(view);
 
 
         //loadImageProfile();
@@ -112,18 +110,18 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Utils.isValid(user.getEmail(), edtFName.getText().toString(), edtLName.getText().toString(), dateBirthDay, getContext()))
+                if (!mViewModel.isValid(edtFName.getText().toString(), edtLName.getText().toString(), getContext()))
                     return;
 
                 updateEntityUser();
                 // Utils.showProgressDialod(progressDialog);
-                if (bitmapProfile != null) {
+                if (mViewModel.getImageProfile() != null) {
                     showDialogUpload();
-                    mListener.updateProfile(user);
+                    mListener.updateProfile(mViewModel.getUser());
                     uploadImage();
 
                 } else {
-                    mListener.updateProfileWithoutBitmap(user);
+                    mListener.updateProfileWithoutBitmap(mViewModel.getUser());
                 }
             }
 
@@ -169,7 +167,7 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
 
 
     private void uploadImage() {
-        new UploadImage(Patch.PROFILES, user.getEmail(), bitmapProfile, new UploadImage.IUploadImage() {
+        new UploadImage(Patch.PROFILES, mViewModel.getUser().getEmail(), mViewModel.getImageProfile(), new UploadImage.IUploadImage() {
             @Override
             public void onSuccess() {
                 progressDialogUpload.dismiss();
@@ -191,7 +189,7 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
 
     private void loadImageProfile() {
         showDialogDownload();
-        new DownloadImage(Patch.PROFILES, user.getEmail(), new DownloadImage.IDownloadImage() {
+        new DownloadImage(Patch.PROFILES, mViewModel.getUser().getEmail(), new DownloadImage.IDownloadImage() {
             @Override
             public void onSuccess(Uri uri) {
                 stopProgressBar();
@@ -209,13 +207,13 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
         imgProfilePicture = view.findViewById(R.id.imgProfilePicture);
         btnSave = view.findViewById(R.id.btnSave);
         edtFName = view.findViewById(R.id.edtFName);
-        edtFName.setText(getUserFirstNameWithUpperCase(user.getFirstName()));
+        edtFName.setText(getUserFirstNameWithUpperCase(mViewModel.getUser().getFirstName()));
         edtLName = view.findViewById(R.id.edtLName);
-        edtLName.setText(user.getLastName());
+        edtLName.setText(mViewModel.getUser().getLastName());
         txtEmail = view.findViewById(R.id.txtEmail);
-        txtEmail.setText(user.getEmail());
+        txtEmail.setText(mViewModel.getUser().getEmail());
         txtBirthday = view.findViewById(R.id.txtBDay);
-        txtBirthday.setText(getStringDateFromLong(user.getBirthDay()));
+        txtBirthday.setText(getStringDateFromLong(mViewModel.getUser().getBirthDay()));
         txtBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,7 +221,7 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateBirthDay = Utils.getTimeStampFromDate(year, month, day);
+                        mViewModel.setDateBirthday(Utils.getTimeStampFromDate(year, month, day));
                     }
                 }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -244,10 +242,10 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
 
     private void updateEntityUser() {
 
-        user.setFirstName(edtFName.getText().toString().toLowerCase());
-        user.setLastName(edtLName.getText().toString());
-        user.setBirthDay(dateBirthDay);
-        SharedPreferencesHelper.getInstance( ).setUser(user);
+        mViewModel.getUser().setFirstName(edtFName.getText().toString().toLowerCase());
+        mViewModel.getUser().setLastName(edtLName.getText().toString());
+        mViewModel.getUser().setBirthDay(mViewModel.getDateBirthDay());
+        SharedPreferencesHelper.getInstance().setUser(mViewModel.getUser());
     }
 
     @Override
@@ -258,9 +256,9 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
             Uri uriImageGallery = data.getData();
 
             imgProfilePicture.setBackgroundResource(0);
-            bitmapProfile = ImageUtils.handleImageGallery(uriImageGallery, getContext());
-            imgProfilePicture.setImageBitmap(bitmapProfile);
-            bitmapProfile = ImageUtils.scaleDown(bitmapProfile, 200, false);
+            mViewModel.setImageProfile(ImageUtils.handleImageGallery(uriImageGallery, getContext()));
+            imgProfilePicture.setImageBitmap(mViewModel.getImageProfile());
+            mViewModel.setImageProfile(ImageUtils.scaleDown(mViewModel.getImageProfile(), 200, false));
         }
     }
 

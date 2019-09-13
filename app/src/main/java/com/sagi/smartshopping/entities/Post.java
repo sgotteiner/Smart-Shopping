@@ -11,6 +11,15 @@ public class Post implements Serializable {
     private String mKey;
     private float mPrice;
     private String mTitle;
+    private int mLikes=0;
+
+    public int getLikes() {
+        return mLikes;
+    }
+
+    public void setLikes(int mLikes) {
+        this.mLikes = mLikes;
+    }
 
     public float getPrice() {
         return mPrice;

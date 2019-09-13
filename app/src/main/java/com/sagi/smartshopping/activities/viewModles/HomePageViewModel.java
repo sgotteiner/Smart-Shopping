@@ -14,8 +14,7 @@ import java.util.List;
 public class HomePageViewModel extends ViewModel {
 
     private PostRepository mPostRepository = PostRepository.getInstance();
-    private long mTimestampLastLoaded;
-    private MutableLiveData<HashMap<String, List<Post>>> mHashMapAllPostsCategories=mPostRepository.getHashMapAllPostsCategories();
+    private MutableLiveData<HashMap<String, List<Post>>> mHashMapAllPostsCategories = mPostRepository.getHashMapAllPostsCategories();
 
 
     public LiveData<HashMap<String, List<Post>>> getHashMapAllPostsCategories() {
@@ -29,14 +28,14 @@ public class HomePageViewModel extends ViewModel {
     public String[] loadAllCategoriesTitle() {
         return mPostRepository.loadAllCategoriesTitle();
     }
-     public void setCategories(String[] categories) {
+
+    public void setCategories(String[] categories) {
         mPostRepository.setCategories(categories);
     }
+
     public ArrayList<String> getArrCategoriesWithPosts() {
         return mPostRepository.getArrCategoriesWithPosts();
     }
-
-
 
 
 }

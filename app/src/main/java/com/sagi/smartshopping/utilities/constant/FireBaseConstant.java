@@ -9,5 +9,6 @@ public class FireBaseConstant {
      public static final String NAME_CATEGORIES_TABLE ="Category_Name";
     public static final String USERS_TABLE ="Users";
     public static final String POSTS_TABLE ="Posts";
+    public static final String LIKES_TABLE ="Likes";
 
 }

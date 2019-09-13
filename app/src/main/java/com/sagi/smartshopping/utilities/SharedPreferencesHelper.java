@@ -89,7 +89,9 @@ public class SharedPreferencesHelper {
     }
 
     public double getLastPostRequest() {
-       return mPreferences.getLong(LAST_TIMESTAMP_REQUEST_POSTS, Utils.getStartTimeStamp());
+        return 0;
+        //TODO back this after DB
+//       return mPreferences.getLong(LAST_TIMESTAMP_REQUEST_POSTS, Utils.getStartTimeStamp());
     }
     public void setLastPostRequest(long timeStamp) {
         mPreferences.edit().putLong(LAST_TIMESTAMP_REQUEST_POSTS,timeStamp).apply();

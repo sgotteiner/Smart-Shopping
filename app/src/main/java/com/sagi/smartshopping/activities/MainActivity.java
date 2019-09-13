@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,18 +42,17 @@ import static com.sagi.smartshopping.utilities.constant.FireBaseConstant.USERS_T
 
 public class MainActivity extends AppCompatActivity implements
         HomepageFragment.OnFragmentInteractionListener
-        , PostFragment.OnFragmentInteractionListener
         , CreatePostFragment.OnFragmentInteractionListener
         , ContainerPagesFragment.OnFragmentInteractionListener
         , SpecificPostsFragment.OnFragmentInteractionListener
-, UserFragment.OnFragmentInteractionListener {
+        , UserFragment.OnFragmentInteractionListener
+        , PostFragment.OnFragmentInteractionListener {
 
     private ICreatePostFragment mCreatePostFragment;
     private DatabaseReference myRef;
     private IPostFragment mPostFragment;
     private ISpecificPostFragment mSpecificPostFragment;
     private ISwitchFragment mSwitchFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void savePost(Bitmap bitmapPost, String postBody, String category, float price, String title) {
-        User user = SharedPreferencesHelper.getInstance( ).getUser();
+        User user = SharedPreferencesHelper.getInstance().getUser();
         String key = myRef.child(FireBaseConstant.POSTS_TABLE).push().getKey();
         Post post = new Post(System.currentTimeMillis(), user.getEmail(), postBody, category, key, price, title);
         myRef.child(FireBaseConstant.POSTS_TABLE).child(key).setValue(post);
@@ -169,11 +167,12 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void openPost(Post post) {
+    public void showPost(Post post) {
         if (mSwitchFragment != null)
             mSwitchFragment.switchFragment(AdapterViewPagerPages.POST_PAGE_POS);
+
         if (mPostFragment != null)
-            mPostFragment.openPost(post);
+            mPostFragment.showPost(post);
     }
 
     @Override
@@ -198,4 +197,6 @@ public class MainActivity extends AppCompatActivity implements
     public void registerEventFromMain(ISwitchFragment iSwitchFragment) {
         this.mSwitchFragment = iSwitchFragment;
     }
+
+
 }

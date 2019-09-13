@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.IOpenPost;
 import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
 import com.squareup.picasso.Picasso;
@@ -24,13 +23,13 @@ public class AdapterSpecificPostsByCategoty extends RecyclerView.Adapter<Adapter
     private ArrayList<Post> mAllSpecificPosts;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private IOpenPost mOpenPost;
+    private AdapterItemPost.ICallbackPost mListener;
 
-    public AdapterSpecificPostsByCategoty(ArrayList<Post> allSpecificPostsPosts, Context context, IOpenPost iOpenPost) {
+    public AdapterSpecificPostsByCategoty(ArrayList<Post> allSpecificPostsPosts, Context context, AdapterItemPost.ICallbackPost callbackPost) {
         this.mAllSpecificPosts = allSpecificPostsPosts;
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(context);
-        this.mOpenPost = iOpenPost;
+        this.mListener = callbackPost;
     }
 
     public class PlaceHolder extends RecyclerView.ViewHolder {
@@ -72,7 +71,7 @@ public class AdapterSpecificPostsByCategoty extends RecyclerView.Adapter<Adapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOpenPost.openPost(post);
+                mListener.showPost(post);
             }
         });
     }

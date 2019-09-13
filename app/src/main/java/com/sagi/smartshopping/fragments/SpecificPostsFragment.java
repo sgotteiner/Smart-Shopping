@@ -16,15 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
+import com.sagi.smartshopping.adapters.AdapterItemPost;
 import com.sagi.smartshopping.adapters.AdapterSpecificPostsByCategoty;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.IOpenPost;
 import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpecificPostsFragment extends Fragment implements ISpecificPostFragment, IOpenPost {
+public class SpecificPostsFragment extends Fragment implements ISpecificPostFragment, AdapterItemPost.ICallbackPost {
 
     private OnFragmentInteractionListener mListener;
     private AdapterSpecificPostsByCategoty mAdapterSpecificPostsByCategoty;
@@ -87,14 +87,17 @@ public class SpecificPostsFragment extends Fragment implements ISpecificPostFrag
         Toast.makeText(getContext(), "boom", Toast.LENGTH_SHORT).show();
     }
 
+
+
+
     @Override
-    public void openPost(Post post) {
-        mListener.openPost(post);
+    public void showPost(Post post) {
+        mListener.showPost(post);
     }
 
     public interface OnFragmentInteractionListener {
         void registerEventFromMain(ISpecificPostFragment iSpecificPostFragment);
-        void openPost(Post post);
+        void showPost(Post post);
 
     }
 }

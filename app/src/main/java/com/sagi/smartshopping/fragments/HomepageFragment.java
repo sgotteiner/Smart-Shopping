@@ -17,37 +17,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.activities.viewModles.HomePageViewModel;
 import com.sagi.smartshopping.adapters.AdapterPostsByCategory;
 import com.sagi.smartshopping.adapters.AdapterTitleCategory;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.utilities.Utils;
-import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.sagi.smartshopping.utilities.constant.GeneralConstants.TIME_STAMP_KEY;
-
 public class HomepageFragment extends Fragment implements AdapterTitleCategory.CallbackAdapterCategories,
         AdapterPostsByCategory.CallBackAdapterPost {
 
     private OnFragmentInteractionListener mListener;
     private ArrayList<String> mAllSuggestionsList = new ArrayList<>();
-     private AdapterTitleCategory mAdapterTitleCategory;
+    private AdapterTitleCategory mAdapterTitleCategory;
     private RecyclerView mRecyclerCategories;
     private AdapterPostsByCategory mAdapterPostsByCategory;
     private RecyclerView mRecyclerAllPostsCategories;
-    private ArrayList<Post> mAllPosts = new ArrayList<>();
     private HomePageViewModel mViewModel;
 
     public HomepageFragment() {
@@ -67,8 +56,6 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
         mViewModel = ViewModelProviders.of(this).get(HomePageViewModel.class);
         loadAllCategoriesTitle();
         mViewModel.getAllPosts();
-
-
         loadViews(view);
         mAllSuggestionsList = new ArrayList<>(Arrays.asList(mViewModel.loadAllCategoriesTitle()));
         configRecyclerViews();
@@ -79,9 +66,6 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
                 mAdapterPostsByCategory.notifyDataSetChanged();
             }
         });
-
-
-
     }
 
     private void configRecyclerViews() {
@@ -101,19 +85,15 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
         mRecyclerAllPostsCategories.setAdapter(mAdapterPostsByCategory);
     }
 
-
     private void loadViews(View view) {
         mRecyclerCategories = view.findViewById(R.id.recyclerTitleCategories);
         mRecyclerAllPostsCategories = view.findViewById(R.id.recyclerAllPostsByCategories);
     }
 
-
     private void loadAllCategoriesTitle() {
         if (mViewModel.loadAllCategoriesTitle() == null)
             mViewModel.setCategories(getResources().getStringArray(R.array.categories));
-
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -144,12 +124,12 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
     }
 
     @Override
-    public void openPost(Post post) {
-        mListener.openPost(post);
+    public void showPost(Post post) {
+        mListener.showPost(post);
     }
 
     public interface OnFragmentInteractionListener {
-        void openPost(Post post);
+        void showPost(Post post);
 
         void showSpecificPosts(List<Post> specificPosts);
     }

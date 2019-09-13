@@ -12,16 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.IOpenPost;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByCategory.PlaceHolder> implements IOpenPost {
+public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByCategory.PlaceHolder> implements AdapterItemPost.ICallbackPost {
 
     private HashMap<String,List<Post>> mPostOfCategory;
     private LayoutInflater mLayoutInflater;
@@ -39,8 +36,8 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
     }
 
     @Override
-    public void openPost(Post post) {
-        mCallBackAdapterPost.openPost(post);
+    public void showPost(Post post) {
+        mCallBackAdapterPost.showPost(post);
     }
 
 
@@ -78,7 +75,6 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
             holder.mRecyclerPosts.setHasFixedSize(true);
             holder.mRecyclerPosts.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             holder.mRecyclerPosts.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
-
             holder.mRecyclerPosts.setAdapter(adapterItemPost);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +93,6 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
 
     public interface CallBackAdapterPost {
         void showSpecificPosts(List<Post> specificPosts);
-        void openPost(Post post);
+        void showPost(Post post);
     }
 }
