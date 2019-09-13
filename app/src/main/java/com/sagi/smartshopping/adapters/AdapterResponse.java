@@ -15,6 +15,7 @@ public class AdapterResponse extends RecyclerView.Adapter<AdapterResponse.PlaceH
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
+    
 
     public AdapterResponse(List<Response> responses, Context context) {
         this.mResponses = responses;
