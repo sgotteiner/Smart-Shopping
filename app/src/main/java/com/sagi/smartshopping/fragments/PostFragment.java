@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class PostFragment extends Fragment implements IPostFragment  {
     private ImageView mImgProfileImage, mImgPostImage, mImgLike, mImgChat;
     private PostViewModel mViewModel;
     private boolean mIsLike;
+    private RecyclerView mRecyclerViewResponses;
 
 
     public PostFragment() {
@@ -80,6 +82,7 @@ public class PostFragment extends Fragment implements IPostFragment  {
         mTxtPostDate = view.findViewById(R.id.txtPostDate);
         mTxtPostPrice = view.findViewById(R.id.txtPrice);
         mTxtPostTitle = view.findViewById(R.id.txtTitle);
+        mRecyclerViewResponses = view.findViewById(R.id.recyclerViewResponses);
     }
 
     @Override

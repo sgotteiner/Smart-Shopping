@@ -11,106 +11,113 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/rlTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/rlTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtPostDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="28/06/2019" />
+                <TextView
+                    android:id="@+id/txtPostDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="28/06/2019" />
 
-        <ImageView
-            android:id="@+id/imgProfileImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true" />
+                <ImageView
+                    android:id="@+id/imgProfileImage"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true" />
 
-        <TextView
-            android:id="@+id/txtUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/imgProfileImage"
-            android:text="sagi" />
+                <TextView
+                    android:id="@+id/txtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/imgProfileImage"
+                    android:text="sagi" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginVertical="15dp"
-        android:textSize="30dp" />
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginVertical="15dp"
+                android:textSize="30dp" />
 
-    <TextView
-        android:id="@+id/txtPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlIcons"
-        android:layout_marginBottom="10dp" />
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlIcons"
+                android:layout_marginBottom="10dp" />
 
-    <ImageView
-        android:id="@+id/imgPostImage"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_below="@+id/txtTitle"
-        android:layout_marginBottom="15dp" />
+            <ImageView
+                android:id="@+id/imgPostImage"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@+id/txtTitle"
+                android:layout_marginBottom="15dp" />
 
-    <RelativeLayout
-        android:id="@+id/rlIcons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgPostImage">
+            <RelativeLayout
+                android:id="@+id/rlIcons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgPostImage">
 
-        <ImageView
-            android:id="@+id/imgIconLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginHorizontal="5dp"
-            android:src="@drawable/not_like" />
+                <ImageView
+                    android:id="@+id/imgIconLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/not_like" />
 
-        <ImageView
-            android:id="@+id/imgIconFavorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toLeftOf="@+id/imgIconChat"
-            android:src="@drawable/keep" />
+                <ImageView
+                    android:id="@+id/imgIconFavorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_toLeftOf="@+id/imgIconChat"
+                    android:src="@drawable/keep" />
 
-        <ImageView
-            android:id="@+id/imgIconChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toLeftOf="@+id/imgIconLike"
-            android:src="@drawable/chat" />
+                <ImageView
+                    android:id="@+id/imgIconChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_toLeftOf="@+id/imgIconLike"
+                    android:src="@drawable/chat" />
 
-        <ImageView
-            android:id="@+id/imgIconShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toLeftOf="@+id/imgIconFavorites"
-            android:src="@drawable/share" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/imgIconShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_toLeftOf="@+id/imgIconFavorites"
+                    android:src="@drawable/share" />
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtPostBody"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtPrice" />
+            <TextView
+                android:id="@+id/txtPostBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPrice" />
+
+
+            <RelativeLayout
+                android:layout_below="@+id/txtPostBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerViewResponses"/>
 
         </RelativeLayout>
     </ScrollView>
