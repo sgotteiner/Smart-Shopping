@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements
     private IPostFragment mPostFragment;
     private ISpecificPostFragment mSpecificPostFragment;
     private ISwitchFragment mSwitchFragment;
-    private String name="Daniel";
+    private String nameLenovo="Daniel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
