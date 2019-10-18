@@ -7,11 +7,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="false">
 
-        <RelativeLayout
+        <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rlTitle"
@@ -63,7 +66,7 @@
             <ImageView
                 android:id="@+id/imgPostImage"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="300dp"
                 android:layout_below="@+id/txtTitle"
                 android:layout_marginBottom="15dp" />
 
@@ -109,17 +112,40 @@
             <TextView
                 android:id="@+id/txtPostBody"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtPrice" />
+                android:layout_height="wrap_content" />
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewResponses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
-                android:layout_below="@+id/txtPostBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerViewResponses"/>
+                android:layout_below="@+id/recyclerViewResponses">
 
-        </RelativeLayout>
+                <EditText
+                    android:paddingHorizontal="10dp"
+                    android:hint="הכנס תגובה חדשה"
+                    android:gravity="center_vertical|right"
+                    android:id="@+id/edtResponse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/imgSend" />
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/imgSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/send" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

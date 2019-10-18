@@ -1,4 +1,4 @@
-package com.sagi.smartshopping.activities.viewModles;
+package com.sagi.smartshopping.viewModles;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import androidx.lifecycle.ViewModel;
 
 import com.sagi.smartshopping.entities.User;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.Utils;
 
 public class UserViewModel extends ViewModel {

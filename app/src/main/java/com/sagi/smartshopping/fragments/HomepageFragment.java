@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.activities.viewModles.HomePageViewModel;
+import com.sagi.smartshopping.viewModles.HomePageViewModel;
 import com.sagi.smartshopping.adapters.AdapterPostsByCategory;
 import com.sagi.smartshopping.adapters.AdapterTitleCategory;
 import com.sagi.smartshopping.entities.Post;
@@ -54,9 +54,7 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
         super.onViewCreated(view, savedInstanceState);
 
         mViewModel = ViewModelProviders.of(this).get(HomePageViewModel.class);
-        loadAllCategoriesTitle();
-        mViewModel.getAllPosts();
-        loadViews(view);
+         loadViews(view);
         mAllSuggestionsList = new ArrayList<>(Arrays.asList(mViewModel.loadAllCategoriesTitle()));
         configRecyclerViews();
 
@@ -90,10 +88,7 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
         mRecyclerAllPostsCategories = view.findViewById(R.id.recyclerAllPostsByCategories);
     }
 
-    private void loadAllCategoriesTitle() {
-        if (mViewModel.loadAllCategoriesTitle() == null)
-            mViewModel.setCategories(getResources().getStringArray(R.array.categories));
-    }
+
 
     @Override
     public void onAttach(Context context) {

@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 
 public class SplashActivity extends AppCompatActivity {
 

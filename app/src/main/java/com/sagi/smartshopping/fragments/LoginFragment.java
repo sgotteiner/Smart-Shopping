@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.interfaces.IWaitingProgressBar;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 
 public class LoginFragment extends Fragment implements IWaitingProgressBar {
 

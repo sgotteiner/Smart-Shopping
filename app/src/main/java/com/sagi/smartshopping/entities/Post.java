@@ -1,14 +1,24 @@
 package com.sagi.smartshopping.entities;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.sagi.smartshopping.reposetories.database.DatabaseConstant;
+
 import java.io.Serializable;
 
+@Entity(tableName = DatabaseConstant.POST_TABLE)
 public class Post implements Serializable {
+
+    @NonNull
+    @PrimaryKey()
+    private String mKey;
 
     private long mTimestamp;
     private String mUsername;
     private String mPostBody;
     private String mCategory;
-    private String mKey;
     private float mPrice;
     private String mTitle;
     private int mLikes=0;
@@ -36,6 +46,8 @@ public class Post implements Serializable {
     public void setTitle(String mTitle) {
         this.mTitle = mTitle;
     }
+
+
 
     public Post(long mTimestamp, String mUsername, String mPostBody, String mCategory, String mKey, float mPrice, String mTitle) {
         this.mTimestamp = mTimestamp;
@@ -96,5 +108,19 @@ public class Post implements Serializable {
 
     public void setPostBody(String mPostBody) {
         this.mPostBody = mPostBody;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "mKey='" + mKey + '\'' +
+                ", mTimestamp=" + mTimestamp +
+                ", mUsername='" + mUsername + '\'' +
+                ", mPostBody='" + mPostBody + '\'' +
+                ", mCategory='" + mCategory + '\'' +
+                ", mPrice=" + mPrice +
+                ", mTitle='" + mTitle + '\'' +
+                ", mLikes=" + mLikes +
+                '}';
     }
 }

@@ -31,7 +31,7 @@ import com.sagi.smartshopping.interfaces.IPostFragment;
 import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
 import com.sagi.smartshopping.interfaces.ISwitchFragment;
 import com.sagi.smartshopping.utilities.Patch;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
 import com.sagi.smartshopping.utilities.Utils;
 import com.sagi.smartshopping.utilities.constant.FireBaseConstant;

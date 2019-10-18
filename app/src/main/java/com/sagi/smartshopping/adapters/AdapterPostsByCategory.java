@@ -65,7 +65,9 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(final PlaceHolder holder, final int position) {
-
+//
+//        if (!mPostOfCategory.containsKey(mArrCategoriesWithPosts.get(position)))
+//            return;
         final List<Post> postList= mPostOfCategory.get(mArrCategoriesWithPosts.get(position));
 
         holder.mTxtCategoryName.setText(mArrCategoriesWithPosts.get(position));

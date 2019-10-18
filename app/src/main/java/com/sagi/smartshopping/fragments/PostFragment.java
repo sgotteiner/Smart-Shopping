@@ -10,48 +10,69 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.activities.viewModles.PostViewModel;
+import com.sagi.smartshopping.viewModles.PostViewModel;
+import com.sagi.smartshopping.adapters.AdapterResponse;
 import com.sagi.smartshopping.entities.Post;
+import com.sagi.smartshopping.entities.Response;
+import com.sagi.smartshopping.entities.User;
 import com.sagi.smartshopping.interfaces.IPostFragment;
 import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.Utils;
 import com.squareup.picasso.Picasso;
 
-public class PostFragment extends Fragment implements IPostFragment  {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostFragment extends Fragment implements IPostFragment {
 
     private OnFragmentInteractionListener mListener;
     private Post mPost;
     private TextView mTxtPostDate, mTxtUsername, mTxtPostBody, mTxtPostTitle, mTxtPostPrice;
-    private ImageView mImgProfileImage, mImgPostImage, mImgLike, mImgChat;
+    private ImageView mImgProfileImage, mImgPostImage, mImgLike, mImgChat, mImgSend;
+    private EditText mEdtResponse;
     private PostViewModel mViewModel;
     private boolean mIsLike;
     private RecyclerView mRecyclerViewResponses;
+    private AdapterResponse mAdapterResponse;
+    private List<Response> mPostResponses = new ArrayList<>();
 
 
     public PostFragment() {
     }
 
+    private void configResponseRecyclerViews() {
+        mAdapterResponse = new AdapterResponse( getContext());
+        mRecyclerViewResponses.setHasFixedSize(true);
+        mRecyclerViewResponses.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerViewResponses.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerViewResponses.setAdapter(mAdapterResponse);
+        mAdapterResponse.submitList(null);
 
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-
-        if (isVisibleToUser && getContext() != null)
-            Toast.makeText(getContext(), "Visible post", Toast.LENGTH_SHORT).show();
     }
+
+    //    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//
+//
+//        if (isVisibleToUser && getContext() != null)
+//            Toast.makeText(getContext(), "Visible post", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,10 +87,57 @@ public class PostFragment extends Fragment implements IPostFragment  {
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
 
         loadViews(view);
+        setSendResponse();
+
+     }
+
+
+
+
+    private void loadResponses(String postKey) {
+        configResponseRecyclerViews();
+
+        mViewModel.getAllResponses(postKey).observe(this, new Observer<List<Response>>() {
+            @Override
+            public void onChanged(List<Response> postResponses) {
+//               mPostResponses.clear();
+
+                mAdapterResponse.submitList(postResponses);
+                mAdapterResponse.notifyDataSetChanged();
+
+//                if (mPostResponses.size() == 0)
+//                    mPostResponses.addAll(postResponses);
+//                else
+//                    mPostResponses.add(postResponses.get(postResponses.size() - 1));
+//                mAdapterResponse.notifyDataSetChanged();
+//
+//                mRecyclerViewResponses.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mRecyclerViewResponses.scrollToPosition(mPostResponses.size() - 1);
+//                    }
+//                });
+            }
+        });
+
 
     }
 
+    private void setSendResponse() {
+        mImgSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEdtResponse.getText().toString().isEmpty())
+                    return;
+                User user = SharedPreferencesHelper.getInstance().getUser();
+                mViewModel.sendResponse(new Response(mPost.getKey(), System.currentTimeMillis(),
+                        user.getEmail(), mEdtResponse.getText().toString()));
 
+
+                mEdtResponse.setText("");
+            }
+        });
+    }
 
 
     private void loadViews(View view) {
@@ -77,6 +145,8 @@ public class PostFragment extends Fragment implements IPostFragment  {
         mImgProfileImage = view.findViewById(R.id.imgProfileImage);
         mImgLike = view.findViewById(R.id.imgIconLike);
         mImgChat = view.findViewById(R.id.imgIconChat);
+        mImgSend = view.findViewById(R.id.imgSend);
+        mEdtResponse = view.findViewById(R.id.edtResponse);
         mTxtPostBody = view.findViewById(R.id.txtPostBody);
         mTxtUsername = view.findViewById(R.id.txtUsername);
         mTxtPostDate = view.findViewById(R.id.txtPostDate);
@@ -111,6 +181,8 @@ public class PostFragment extends Fragment implements IPostFragment  {
 
     @Override
     public void showPost(final Post post) {
+        loadResponses(post.getKey());
+
         mViewModel.getPostLiveData(post.getKey()).observe(this, new Observer<Post>() {
             @Override
             public void onChanged(Post post) {
@@ -120,19 +192,19 @@ public class PostFragment extends Fragment implements IPostFragment  {
                 mTxtPostBody.setText(post.getPostBody());
                 mTxtPostPrice.setText(String.valueOf(post.getPrice()));
                 mTxtPostTitle.setText(post.getTitle());
-                downloadImage(post.getTitle(),mImgPostImage);
-                downloadImage(post.getUsername(),mImgProfileImage);
+                downloadImage(post.getTitle(), mImgPostImage);
+                downloadImage(post.getUsername(), mImgProfileImage);
             }
         });
 
-       loadIsLike(post.getKey()).observe(this, new Observer<Boolean>() {
-           @Override
-           public void onChanged(Boolean aBoolean) {
-               mIsLike=aBoolean;
-               mImgLike.setImageResource(aBoolean?R.drawable.like:R.drawable.not_like);
-           }
-       });
-         mImgLike.setOnClickListener(new View.OnClickListener() {
+        loadIsLike(post.getKey()).observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                mIsLike = aBoolean;
+                mImgLike.setImageResource(aBoolean ? R.drawable.like : R.drawable.not_like);
+            }
+        });
+        mImgLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mIsLike = !mIsLike;
@@ -143,8 +215,8 @@ public class PostFragment extends Fragment implements IPostFragment  {
         });
     }
 
-    private void downloadImage(String name,final ImageView imageView) {
-        new DownloadImage(Patch.POSTS_IMAGES,name, new DownloadImage.IDownloadImage() {
+    private void downloadImage(String name, final ImageView imageView) {
+        new DownloadImage(Patch.POSTS_IMAGES, name, new DownloadImage.IDownloadImage() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.with(getContext()).load(uri).fit().into(imageView);
@@ -156,21 +228,6 @@ public class PostFragment extends Fragment implements IPostFragment  {
             }
         }).startLoading();
     }
-
-//
-//    @Override
-//    public void loadLike() {
-//        loadImageLike();
-//        mImgLike.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mIsLike = !mIsLike;
-//                if (mIsLike)
-//                    mImgLike.setImageResource(R.drawable.like);
-//                mViewModel.setLike(mPost.getKey(), mIsLike);
-//            }
-//        });
-//    }
 
     public interface OnFragmentInteractionListener {
         void registerEventFromMain(IPostFragment iPostFragment);

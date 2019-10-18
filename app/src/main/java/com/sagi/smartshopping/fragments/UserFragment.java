@@ -26,13 +26,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.activities.viewModles.UserViewModel;
+import com.sagi.smartshopping.viewModles.UserViewModel;
 import com.sagi.smartshopping.entities.User;
 import com.sagi.smartshopping.interfaces.IWaitingProgressBar;
 import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.ImageUtils;
 import com.sagi.smartshopping.utilities.Patch;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
 import com.sagi.smartshopping.utilities.Utils;
 import com.squareup.picasso.Picasso;

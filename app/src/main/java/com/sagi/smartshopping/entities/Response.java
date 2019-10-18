@@ -1,11 +1,23 @@
 package com.sagi.smartshopping.entities;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.sagi.smartshopping.reposetories.database.DatabaseConstant;
+
+@Entity(tableName = DatabaseConstant.RESPONSE_TABLE)
 public class Response {
+
+    @NonNull
+    @PrimaryKey
     private String mKey;
+
     private String mKeyPost;
     private long mTimeStamp;
     private String mEmailUser;
     private String mUsername;
+
 
     public String getUsername() {
         return mUsername;
@@ -20,6 +32,21 @@ public class Response {
 
 
     public Response() {
+    }
+
+    public Response(String mKey, String mKeyPost, long mTimeStamp, String mEmailUser, String mBody) {
+        this.mKey = mKey;
+        this.mKeyPost = mKeyPost;
+        this.mTimeStamp = mTimeStamp;
+        this.mEmailUser = mEmailUser;
+        this.mBody = mBody;
+    }
+
+    public Response(String mKeyPost, long mTimeStamp, String mEmailUser, String mBody) {
+        this.mKeyPost = mKeyPost;
+        this.mTimeStamp = mTimeStamp;
+        this.mEmailUser = mEmailUser;
+        this.mBody = mBody;
     }
 
     public String getKey() {

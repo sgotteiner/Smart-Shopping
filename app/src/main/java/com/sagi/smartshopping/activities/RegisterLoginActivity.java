@@ -24,7 +24,7 @@ import com.sagi.smartshopping.fragments.RegisterFragment;
 import com.sagi.smartshopping.interfaces.IWaitingProgressBar;
 import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
 import com.sagi.smartshopping.utilities.Patch;
-import com.sagi.smartshopping.utilities.SharedPreferencesHelper;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
 
 public class RegisterLoginActivity extends AppCompatActivity
