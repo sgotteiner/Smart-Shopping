@@ -1,5 +1,6 @@
 package com.sagi.smartshopping.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +32,7 @@ import com.sagi.smartshopping.interfaces.ICreatePostFragment;
 import com.sagi.smartshopping.interfaces.IPostFragment;
 import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
 import com.sagi.smartshopping.interfaces.ISwitchFragment;
+import com.sagi.smartshopping.services.LocationService;
 import com.sagi.smartshopping.utilities.Patch;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
@@ -64,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements
 
 //        loadAllCategoriesName();
         showFragment(new ContainerPagesFragment());
+
+
+
     }
 
     public void loadAllCategoriesName() {
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements
         User user = SharedPreferencesHelper.getInstance().getUser();
         String key = myRef.child(FireBaseConstant.POSTS_TABLE).push().getKey();
         Post post = new Post(System.currentTimeMillis(), user.getEmail(), postBody, category, key, price, title);
+        post.setCityLocation(SharedPreferencesHelper.getInstance().getLastCityIThere());
+
         myRef.child(FireBaseConstant.POSTS_TABLE).child(key).setValue(post);
 
 //        if (isNewCategory)

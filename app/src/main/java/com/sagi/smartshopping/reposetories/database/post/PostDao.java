@@ -25,12 +25,14 @@ public interface PostDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     void updatePost(Post newPost);
 
-    @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mCategory = :category ORDER BY mTimestamp DESC")
-    LiveData<List<Post>> getAllCategoryPostList(String category);
+    @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mCategory = :category AND mCityLocation =:city ORDER BY mTimestamp DESC")
+    LiveData<List<Post>> getAllCategoryPostList(String category,String city);
 
 
     @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mTimestamp >= :timeStampStart AND mTimestamp <= :timeStampEnd ORDER BY mTimestamp DESC")
     LiveData<List<Post>> getPostListBetweenDate(long timeStampStart,long timeStampEnd);
+
+
 
 
 }

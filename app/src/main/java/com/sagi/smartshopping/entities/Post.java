@@ -14,7 +14,6 @@ public class Post implements Serializable {
     @NonNull
     @PrimaryKey()
     private String mKey;
-
     private long mTimestamp;
     private String mUsername;
     private String mPostBody;
@@ -22,6 +21,16 @@ public class Post implements Serializable {
     private float mPrice;
     private String mTitle;
     private int mLikes=0;
+    private String mCityLocation;
+
+
+    public String getCityLocation() {
+        return mCityLocation;
+    }
+
+    public void setCityLocation(String cityLocation) {
+        this.mCityLocation = cityLocation;
+    }
 
     public int getLikes() {
         return mLikes;

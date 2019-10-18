@@ -19,6 +19,7 @@ public class SharedPreferencesHelper {
     private static SharedPreferencesHelper mInstance;
 
     private final String IS_ALREADY_LOGIN = "IS_ALREADY_LOGIN";
+    private static final String LAST_CITY_I_BEEN_THARE = "LAST_CITY_I_BEEN_THARE";
     private final String FIRST_NAME = "FIRST_NAME";
     private final String LAST_NAME = "LAST_NAME";
     private final String EMAIL = "EMAIL";
@@ -96,5 +97,12 @@ public class SharedPreferencesHelper {
     }
     public void setLastPostRequest(long timeStamp) {
         mPreferences.edit().putLong(LAST_TIMESTAMP_REQUEST_POSTS,timeStamp).apply();
+    }
+
+    public void setLastCityIThere(String myCity) {
+        mPreferences.edit().putString(LAST_CITY_I_BEEN_THARE, myCity).apply();
+    }
+    public String getLastCityIThere( ) {
+        return mPreferences.getString(LAST_CITY_I_BEEN_THARE,"DEFAULT");
     }
 }

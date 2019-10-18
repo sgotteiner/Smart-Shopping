@@ -1,9 +1,12 @@
 package com.sagi.smartshopping.services;
 
 import android.Manifest;
+import android.app.AliasActivity;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.IBinder;
 import androidx.core.app.ActivityCompat;
@@ -14,6 +17,12 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class LocationService extends Service {
 
@@ -28,10 +37,11 @@ public class LocationService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
 
@@ -46,7 +56,6 @@ public class LocationService extends Service {
             return;
         }
         mFusedLocationProviderClient.requestLocationUpdates(locationRequest, mCallbackLocation,null);
-
     }
 
     LocationCallback mCallbackLocation =new LocationCallback(){
@@ -58,11 +67,27 @@ public class LocationService extends Service {
                 return;
 
             for (Location location:locationResult.getLocations()){
+                getCityFromLocation(location);
                 Log.d("LocationService",location.getLatitude()+", "+location.getLongitude());
             }
 
         }
     };
+
+    private void getCityFromLocation(Location location) {
+        // TODO change to english
+        Geocoder gcd = new Geocoder(getApplicationContext(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addresses.size() > 0) {
+            String myCity=addresses.get(0).getLocality();
+            SharedPreferencesHelper.getInstance().setLastCityIThere(myCity);
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

@@ -39,8 +39,8 @@ public class PostViewModel extends ViewModel {
         return mPostRepository.getPostLiveData(postKey);
     }
 
-    public LiveData<List<Post>> getAllPostByCategory(String category) {
-       return mPostRepository.getAllPostByCategory(category);
+    public LiveData<List<Post>> getAllPostByCategory(String category ) {
+       return mPostRepository.getAllPostByCategory(category );
     }
 
     public void sendResponse(Response response) {

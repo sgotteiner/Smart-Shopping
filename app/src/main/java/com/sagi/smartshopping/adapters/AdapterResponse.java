@@ -7,20 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Response;
 import com.sagi.smartshopping.utilities.DownloadImage;
 import com.sagi.smartshopping.utilities.Patch;
 import com.sagi.smartshopping.utilities.Utils;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 public class AdapterResponse extends ListAdapter<Response, AdapterResponse.PlaceHolder> {
@@ -70,7 +69,15 @@ public class AdapterResponse extends ListAdapter<Response, AdapterResponse.Place
         new DownloadImage(Patch.PROFILES, response.getEmailUser(), new DownloadImage.IDownloadImage() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(mContext).load(uri).fit().into(holder.mImgUserProfile);
+            //    Picasso.with(mContext).load(uri).fit().into(holder.mImgUserProfile);
+
+
+                Picasso.with(mContext)
+                        .load(uri)
+                        .memoryPolicy(MemoryPolicy.NO_STORE)
+                        /* .fit()*/
+                        .into(holder.mImgUserProfile);
+
             }
 
             @Override
@@ -91,7 +98,6 @@ public class AdapterResponse extends ListAdapter<Response, AdapterResponse.Place
             return (oldItem.getTimeStamp() == newItem.getTimeStamp()
                     && oldItem.getEmailUser().equals(newItem.getEmailUser()));
         }
-
     };
 
 

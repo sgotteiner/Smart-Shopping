@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
+import com.sagi.smartshopping.services.LocationService;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,15 +27,19 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
+        Intent intent= new Intent(this, LocationService.class);
+        startService(intent);
+
+
         mTxtHeader = findViewById(R.id.txtHeader);
-
-
 
         if (isNeedAskPermission())
             requestPermissions();
         else
             handleShowingActivity();
     }
+
+
 
     private void requestPermissions() {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);

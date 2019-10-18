@@ -36,6 +36,7 @@ public class DownloadImage {
 
     public void startLoading() {
 
+
         mStorageRef.child(mPatchStorageImage.name()).child(mImageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override

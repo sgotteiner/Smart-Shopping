@@ -8,8 +8,8 @@ android {
         applicationId "com.sagi.smartshopping"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 9
+        versionName "1.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,7 +30,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-storage:19.1.0'
-    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     testImplementation 'junit:junit:4.12'

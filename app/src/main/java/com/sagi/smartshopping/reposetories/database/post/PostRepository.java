@@ -115,6 +115,7 @@ public class PostRepository {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Post newPost = dataSnapshot.getValue(Post.class);
+
                 Log.d("post", "listenerAllHistoryChanges onChildChanged() => " + newPost.toString());
                 SharedPreferencesHelper.getInstance().setLastPostRequest(newPost.getTimestamp());
                 //  String category = newPost.getCategory()
@@ -189,8 +190,8 @@ public class PostRepository {
         return cal.getTimeInMillis();
     }
 
-    public LiveData<List<Post>> getAllPostByCategory(String category) {
-        return mShoppingDatabase.postDao().getAllCategoryPostList(category);
+    public LiveData<List<Post>> getAllPostByCategory(String category ) {
+        return mShoppingDatabase.postDao().getAllCategoryPostList(category ,SharedPreferencesHelper.getInstance().getLastCityIThere());
     }
 
     public String[] getAllCategoriesTitle() {
