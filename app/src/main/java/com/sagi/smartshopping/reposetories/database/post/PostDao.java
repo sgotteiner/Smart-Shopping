@@ -33,6 +33,7 @@ public interface PostDao {
     LiveData<List<Post>> getPostListBetweenDate(long timeStampStart,long timeStampEnd);
 
 
-
+    @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mKey = :key")
+    Post isExist(String key);
 
 }

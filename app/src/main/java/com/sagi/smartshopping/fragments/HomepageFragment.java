@@ -50,25 +50,50 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mViewModel = ViewModelProviders.of(this).get(HomePageViewModel.class);
-         loadViews(view);
+        loadViews(view);
         mAllSuggestionsList = new ArrayList<>(Arrays.asList(mViewModel.loadAllCategoriesTitle()));
         configRecyclerViews();
 
         mViewModel.getHashMapAllPostsCategories().observe(this, new Observer<HashMap<String, List<Post>>>() {
             @Override
             public void onChanged(HashMap<String, List<Post>> stringListHashMap) {
+
+                filterPostList(stringListHashMap);
                 mAdapterPostsByCategory.notifyDataSetChanged();
             }
         });
     }
 
+    private void filterPostList(HashMap<String, List<Post>> listHashMap) {
+        for (int i = 0; i < mViewModel.getArrCategoriesWithPosts().size(); i++)
+            if (listHashMap.get(mViewModel.getArrCategoriesWithPosts().get(i)).size() > 0) {
+                mHashMapWithPostList.put(mViewModel.getArrCategoriesWithPosts().get(i), listHashMap.get(mViewModel.getArrCategoriesWithPosts().get(i)));
+
+                if (!isCategoryNoExist(mViewModel.getArrCategoriesWithPosts().get(i)))
+                    mCategoriesWithPosts.add(mViewModel.getArrCategoriesWithPosts().get(i));
+            }
+    }
+
+    private boolean isCategoryNoExist(String category) {
+        for (int i = 0; i < mCategoriesWithPosts.size(); i++) {
+            if (mCategoriesWithPosts.get(i).equals(category))
+                return true;
+        }
+        return false;
+    }
+
+
+    private HashMap<String, List<Post>> mHashMapWithPostList = new HashMap<>();
+    private ArrayList<String> mCategoriesWithPosts = new ArrayList<>();
+
+
     private void configRecyclerViews() {
         mAdapterTitleCategory = new AdapterTitleCategory(mAllSuggestionsList, getContext(), this);
-        mAdapterPostsByCategory = new AdapterPostsByCategory(mViewModel.getHashMapAllPostsCategories().getValue(), getContext(), mViewModel.getArrCategoriesWithPosts(), this);
+        mAdapterPostsByCategory = new AdapterPostsByCategory(mHashMapWithPostList, getContext(), mCategoriesWithPosts, this);
 
         mRecyclerCategories.setHasFixedSize(true);
         mRecyclerAllPostsCategories.setHasFixedSize(true);
@@ -87,7 +112,6 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
         mRecyclerCategories = view.findViewById(R.id.recyclerTitleCategories);
         mRecyclerAllPostsCategories = view.findViewById(R.id.recyclerAllPostsByCategories);
     }
-
 
 
     @Override
@@ -110,11 +134,12 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
 
     @Override
     public void onClickCategory(String categories) {
-        Toast.makeText(getContext(), categories, Toast.LENGTH_SHORT).show();
+        if (mHashMapWithPostList.containsKey(categories))
+            showPostsBySpecificCategory(mHashMapWithPostList.get(categories));
     }
 
     @Override
-    public void showSpecificPosts(List<Post> specificPosts) {
+    public void showPostsBySpecificCategory(List<Post> specificPosts) {
         mListener.showSpecificPosts(specificPosts);
     }
 

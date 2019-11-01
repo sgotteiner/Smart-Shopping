@@ -42,7 +42,7 @@ public class PostFragment extends Fragment implements IPostFragment {
 
     private OnFragmentInteractionListener mListener;
     private Post mPost;
-    private TextView mTxtPostDate, mTxtUsername, mTxtPostBody, mTxtPostTitle, mTxtPostPrice;
+    private TextView mTxtPostDate, mTxtUsername, mTxtPostBody, mTxtPostTitle, mTxtPostPrice, mTxtNumberOfLikes;
     private ImageView mImgProfileImage, mImgPostImage, mImgLike, mImgChat, mImgSend;
     private EditText mEdtResponse;
     private PostViewModel mViewModel;
@@ -56,7 +56,7 @@ public class PostFragment extends Fragment implements IPostFragment {
     }
 
     private void configResponseRecyclerViews() {
-        mAdapterResponse = new AdapterResponse( getContext());
+        mAdapterResponse = new AdapterResponse(getContext());
         mRecyclerViewResponses.setHasFixedSize(true);
         mRecyclerViewResponses.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerViewResponses.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -89,9 +89,7 @@ public class PostFragment extends Fragment implements IPostFragment {
         loadViews(view);
         setSendResponse();
 
-     }
-
-
+    }
 
 
     private void loadResponses(String postKey) {
@@ -145,6 +143,7 @@ public class PostFragment extends Fragment implements IPostFragment {
         mImgProfileImage = view.findViewById(R.id.imgProfileImage);
         mImgLike = view.findViewById(R.id.imgIconLike);
         mImgChat = view.findViewById(R.id.imgIconChat);
+        mTxtNumberOfLikes = view.findViewById(R.id.txtNumberOfLikes);
         mImgSend = view.findViewById(R.id.imgSend);
         mEdtResponse = view.findViewById(R.id.edtResponse);
         mTxtPostBody = view.findViewById(R.id.txtPostBody);
@@ -156,7 +155,7 @@ public class PostFragment extends Fragment implements IPostFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -192,6 +191,9 @@ public class PostFragment extends Fragment implements IPostFragment {
                 mTxtPostBody.setText(post.getPostBody());
                 mTxtPostPrice.setText(String.valueOf(post.getPrice()));
                 mTxtPostTitle.setText(post.getTitle());
+                mTxtNumberOfLikes.setText(String.valueOf(post.getLikes()));
+                mTxtNumberOfLikes.setTextSize(post.getLikes() > 1000 ? 7 : 10);
+
                 downloadImage(post.getTitle(), mImgPostImage);
                 downloadImage(post.getUsername(), mImgProfileImage);
             }
@@ -208,8 +210,7 @@ public class PostFragment extends Fragment implements IPostFragment {
             @Override
             public void onClick(View v) {
                 mIsLike = !mIsLike;
-                if (mIsLike)
-                    mImgLike.setImageResource(R.drawable.like);
+                mImgLike.setImageResource(mIsLike ? R.drawable.like : R.drawable.not_like);
                 mViewModel.setLike(mPost.getKey(), mIsLike);
             }
         });

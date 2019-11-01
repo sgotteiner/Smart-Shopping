@@ -83,7 +83,7 @@ public class LocationService extends Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses.size() > 0) {
+        if (addresses!=null && addresses.size() > 0) {
             String myCity=addresses.get(0).getLocality();
             SharedPreferencesHelper.getInstance().setLastCityIThere(myCity);
         }

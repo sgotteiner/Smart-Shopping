@@ -14,12 +14,12 @@ import java.util.List;
 public class HomePageViewModel extends ViewModel {
 
 
-
     private PostRepository mPostRepository = PostRepository.getInstance();
     private MutableLiveData<HashMap<String, List<Post>>> mHashMapAllPostsCategories = mPostRepository.getHashMapAllPostsCategories();
 
 
     public LiveData<HashMap<String, List<Post>>> getHashMapAllPostsCategories() {
+
         return mHashMapAllPostsCategories;
     }
 

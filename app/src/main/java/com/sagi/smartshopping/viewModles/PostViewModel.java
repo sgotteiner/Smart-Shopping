@@ -62,6 +62,7 @@ public class PostViewModel extends ViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mMutableLiveDataLiked.postValue(dataSnapshot.exists());
+
             }
 
             @Override
@@ -69,6 +70,20 @@ public class PostViewModel extends ViewModel {
 
             }
         });
+
+
+//        myRef.child(FireBaseConstant.LIKES_TABLE).child(SharedPreferencesHelper.getInstance().
+//                getUser().textEmailForFirebase()).child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                mMutableLiveDataLiked.postValue(dataSnapshot.exists());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
         return mMutableLiveDataLiked;
     }
 

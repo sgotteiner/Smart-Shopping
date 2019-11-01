@@ -12,21 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.entities.Post;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByCategory.PlaceHolder> implements AdapterItemPost.ICallbackPost {
 
-    private HashMap<String,List<Post>> mPostOfCategory;
+    private HashMap<String, List<Post>> mPostOfCategory;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private ArrayList<String> mArrCategoriesWithPosts;
     private AdapterPostsByCategory.CallBackAdapterPost mCallBackAdapterPost;
 
-    public AdapterPostsByCategory(HashMap<String,List<Post>> postCategories, Context context, ArrayList<String> arrCategoriesWithPosts,
+    public AdapterPostsByCategory(HashMap<String, List<Post>> postCategories, Context context, ArrayList<String> arrCategoriesWithPosts,
                                   AdapterPostsByCategory.CallBackAdapterPost callBackAdapterPost) {
         this.mPostOfCategory = postCategories;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -41,6 +43,8 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
     }
 
 
+    private ViewGroup.LayoutParams params;
+
     public class PlaceHolder extends RecyclerView.ViewHolder {
 
         private TextView mTxtCategoryName;
@@ -49,6 +53,7 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
 
         public PlaceHolder(View view) {
             super(view);
+            params = itemView.getLayoutParams();
             mTxtCategoryName = view.findViewById(R.id.txtCategoryName);
             mRecyclerPosts = view.findViewById(R.id.recyclerPostsByCategory);
         }
@@ -65,15 +70,20 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(final PlaceHolder holder, final int position) {
-//
-//        if (!mPostOfCategory.containsKey(mArrCategoriesWithPosts.get(position)))
-//            return;
-        final List<Post> postList= mPostOfCategory.get(mArrCategoriesWithPosts.get(position));
 
-        holder.mTxtCategoryName.setText(mArrCategoriesWithPosts.get(position));
+        final List<Post> postList = mPostOfCategory.get(mArrCategoriesWithPosts.get(position));
 
-        if(postList!=null) {
-            AdapterItemPost adapterItemPost = new AdapterItemPost(postList, mContext,this);
+ //            holder.mTxtCategoryName.setText(mArrCategoriesWithPosts.get(position));
+//            if (holder.itemView.getLayoutParams().height == 0)
+//                holder.itemView.setLayoutParams(params);
+          /*else {
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+        }*/
+
+
+        if (postList != null) {
+            AdapterItemPost adapterItemPost = new AdapterItemPost(postList, mContext, this);
+            holder.mTxtCategoryName.setText(mArrCategoriesWithPosts.get(position));
             holder.mRecyclerPosts.setHasFixedSize(true);
             holder.mRecyclerPosts.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             holder.mRecyclerPosts.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
@@ -82,11 +92,10 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallBackAdapterPost.showSpecificPosts(postList);
+                mCallBackAdapterPost.showPostsBySpecificCategory(postList);
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -94,7 +103,8 @@ public class AdapterPostsByCategory extends RecyclerView.Adapter<AdapterPostsByC
     }
 
     public interface CallBackAdapterPost {
-        void showSpecificPosts(List<Post> specificPosts);
+        void showPostsBySpecificCategory(List<Post> specificPosts);
+
         void showPost(Post post);
     }
 }

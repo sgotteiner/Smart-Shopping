@@ -45,7 +45,7 @@ public class PostRepository {
     }
 
     public ArrayList<String> getArrCategoriesWithPosts() {
-        if (mArrCategoriesWithPosts.size()==0)
+        if (mArrCategoriesWithPosts.size() == 0)
             initCategoryList();
         return mArrCategoriesWithPosts;
     }
@@ -62,13 +62,12 @@ public class PostRepository {
         myRef = FirebaseDatabase.getInstance().getReference();
         String[] allCategories = getAllCategoriesTitle();
 
-        HashMap<String, List<Post>> listHashMap=new HashMap<>();
+        HashMap<String, List<Post>> listHashMap = new HashMap<>();
         for (String category : allCategories) {
             listHashMap.put(category, new ArrayList<Post>());
         }
-
         mHashMapAllPostsCategories.setValue(listHashMap);
-//        mHashMapAllPostsCategories.setValue(new HashMap<String, List<Post>>());
+
         mShoppingDatabase = ShoppingDatabase.getInstance();
         listenerAllDeltaChanges();
         listenerAllHistoryChanges();
@@ -76,13 +75,14 @@ public class PostRepository {
     }
 
     private void startObserveToAllCategories(String[] allCategories) {
+
         for (String category : allCategories) {
             Log.d("post", "Start listener to DB category=> " + category);
             getAllPostByCategory(category).observeForever(mObserveDB);
         }
     }
 
-    public void removeObserveToAllCategories( ) {
+    public void removeObserveToAllCategories() {
         for (String category : mCategories) {
             Log.d("post", "Start listener to DB category=> " + category);
             getAllPostByCategory(category).removeObserver(mObserveDB);
@@ -109,6 +109,8 @@ public class PostRepository {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Post newPost = dataSnapshot.getValue(Post.class);
+                if (mShoppingDatabase.postDao().isExist(newPost.getKey()) == null)
+                    mShoppingDatabase.postDao().insertPost(newPost);
                 Log.d("post", "listenerAllHistoryChanges onChildAdded() => " + newPost.toString());
             }
 
@@ -148,7 +150,9 @@ public class PostRepository {
                 Post post = dataSnapshot.getValue(Post.class);
                 Log.d("post", "onChildAdded() => " + post.toString());
                 SharedPreferencesHelper.getInstance().setLastPostRequest(post.getTimestamp());
-                mShoppingDatabase.postDao().insertPost(post);
+
+                if (mShoppingDatabase.postDao().isExist(post.getKey()) == null)
+                    mShoppingDatabase.postDao().insertPost(post);
             }
 
             @Override
@@ -190,8 +194,8 @@ public class PostRepository {
         return cal.getTimeInMillis();
     }
 
-    public LiveData<List<Post>> getAllPostByCategory(String category ) {
-        return mShoppingDatabase.postDao().getAllCategoryPostList(category ,SharedPreferencesHelper.getInstance().getLastCityIThere());
+    public LiveData<List<Post>> getAllPostByCategory(String category) {
+        return mShoppingDatabase.postDao().getAllCategoryPostList(category, SharedPreferencesHelper.getInstance().getLastCityIThere());
     }
 
     public String[] getAllCategoriesTitle() {
