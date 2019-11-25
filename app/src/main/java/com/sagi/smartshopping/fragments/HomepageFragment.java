@@ -140,7 +140,7 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
 
     @Override
     public void showPostsBySpecificCategory(List<Post> specificPosts) {
-        mListener.showSpecificPosts(specificPosts);
+        mListener.showPostsBySpecificCategory(specificPosts);
     }
 
     @Override
@@ -151,6 +151,6 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
     public interface OnFragmentInteractionListener {
         void showPost(Post post);
 
-        void showSpecificPosts(List<Post> specificPosts);
+        void showPostsBySpecificCategory(List<Post> specificPosts);
     }
 }

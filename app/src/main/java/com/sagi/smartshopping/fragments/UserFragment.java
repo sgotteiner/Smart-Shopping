@@ -69,7 +69,6 @@ public class UserFragment extends Fragment implements IWaitingProgressBar {
 //        Toast.makeText(getContext(), "Visible UserFragment", Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -14,15 +14,11 @@ import android.view.ViewGroup;
 
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.adapters.AdapterViewPagerPages;
-import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.ISwitchFragment;
 
-import static com.sagi.smartshopping.adapters.AdapterViewPagerPages.POST_PAGE_POS;
 
-public class ContainerPagesFragment extends Fragment implements ISwitchFragment {
+public class ContainerPagesFragment extends Fragment  {
 
     private ViewPager mViewPagerPages;
-    private OnFragmentInteractionListener mListener;
 
     public ContainerPagesFragment() {
     }
@@ -39,40 +35,13 @@ public class ContainerPagesFragment extends Fragment implements ISwitchFragment 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewPagerPages=view.findViewById(R.id.viewPagerPages);
-
         mAdapterViewPagerPages=new AdapterViewPagerPages(getFragmentManager());
         mViewPagerPages.setAdapter(mAdapterViewPagerPages);
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-            mListener.registerEventFromMain(this);
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener.registerEventFromMain(null);
-        mListener = null;
-    }
-
-    @Override
-    public void switchFragment(int fragmentName) {
-        mViewPagerPages.setCurrentItem(fragmentName);
-    }
 
 
 
 
-    public interface OnFragmentInteractionListener {
-        void registerEventFromMain(ISwitchFragment iSwitchFragment);
 
-    }
 }

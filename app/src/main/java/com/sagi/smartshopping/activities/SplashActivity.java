@@ -1,8 +1,12 @@
 package com.sagi.smartshopping.activities;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
@@ -10,16 +14,26 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.services.LocationService;
+import com.sagi.smartshopping.utilities.CsvReader;
+
+import java.util.ArrayList;
+
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION = 2;
-    private TextView mTxtHeader;
+    private ImageView mImgIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +41,40 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-        Intent intent= new Intent(this, LocationService.class);
+        mImgIcon = findViewById(R.id.imgIcon);
+
+
+        //https://www.journaldev.com/9481/android-animation-example
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.slide_down);
+        animation.setDuration(2000);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mImgIcon.startAnimation(animation);
+
+
+
+        showAnotherAnimation();
+
+
+        Intent intent = new Intent(this, LocationService.class);
         startService(intent);
 
-
-        mTxtHeader = findViewById(R.id.txtHeader);
+        csvReader();
 
         if (isNeedAskPermission())
             requestPermissions();
@@ -39,6 +82,23 @@ public class SplashActivity extends AppCompatActivity {
             handleShowingActivity();
     }
 
+    private void showAnotherAnimation() {
+
+        mImgIcon.setBackgroundResource(R.drawable.animation_images);
+        AnimationDrawable rocketAnimation = (AnimationDrawable) mImgIcon.getBackground();
+        rocketAnimation.start();
+    }
+
+
+    private void csvReader() {
+//        final String FILE_NAME = "data_base_to_standart_users.csv";
+//        final String FILE_NAME = "shopping_local_db.csv";
+        final String FILE_NAME = "new_db.csv";
+
+        new CsvReader(this, FILE_NAME, rows -> {
+            Log.i("CsvReader", "csvReader: "+rows.size());
+        }).execute();
+    }
 
 
     private void requestPermissions() {
@@ -66,21 +126,18 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             chooseScreen();
         }
+
+
     }
 
 
     private void handleShowingActivity() {
-        final int DELAY_TIME = 1000;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                chooseScreen();
-            }
-        }, DELAY_TIME);
+        final int DELAY_TIME = 4000;
+        new Handler().postDelayed(() -> chooseScreen(), DELAY_TIME);
     }
 
     private void chooseScreen() {
-        if (SharedPreferencesHelper.getInstance( ).isAlreadyLogin())
+        if (SharedPreferencesHelper.getInstance().isAlreadyLogin())
             showActivity(MainActivity.class);
         else
             showActivity(RegisterLoginActivity.class);

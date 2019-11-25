@@ -1,14 +1,13 @@
 package com.sagi.smartshopping.activities;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,26 +18,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sagi.smartshopping.R;
-import com.sagi.smartshopping.adapters.AdapterViewPagerPages;
 import com.sagi.smartshopping.entities.Post;
 import com.sagi.smartshopping.entities.User;
 import com.sagi.smartshopping.fragments.ContainerPagesFragment;
 import com.sagi.smartshopping.fragments.CreatePostFragment;
 import com.sagi.smartshopping.fragments.HomepageFragment;
-import com.sagi.smartshopping.fragments.PostFragment;
-import com.sagi.smartshopping.fragments.SpecificPostsFragment;
+import com.sagi.smartshopping.fragments.DialogSpecificPostsByCategoryFragment;
 import com.sagi.smartshopping.fragments.UserFragment;
+import com.sagi.smartshopping.fragments.dialogs.DialogPostFragment;
 import com.sagi.smartshopping.interfaces.ICreatePostFragment;
-import com.sagi.smartshopping.interfaces.IPostFragment;
-import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
-import com.sagi.smartshopping.interfaces.ISwitchFragment;
-import com.sagi.smartshopping.services.LocationService;
 import com.sagi.smartshopping.utilities.Patch;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
 import com.sagi.smartshopping.utilities.Utils;
 import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.sagi.smartshopping.utilities.constant.FireBaseConstant.USERS_TABLE;
@@ -46,17 +41,12 @@ import static com.sagi.smartshopping.utilities.constant.FireBaseConstant.USERS_T
 public class MainActivity extends AppCompatActivity implements
         HomepageFragment.OnFragmentInteractionListener
         , CreatePostFragment.OnFragmentInteractionListener
-        , ContainerPagesFragment.OnFragmentInteractionListener
-        , SpecificPostsFragment.OnFragmentInteractionListener
-        , UserFragment.OnFragmentInteractionListener
-        , PostFragment.OnFragmentInteractionListener {
+        , DialogSpecificPostsByCategoryFragment.OnFragmentInteractionListener
+        , UserFragment.OnFragmentInteractionListener {
 
     private ICreatePostFragment mCreatePostFragment;
     private DatabaseReference myRef;
-    private IPostFragment mPostFragment;
-    private ISpecificPostFragment mSpecificPostFragment;
-    private ISwitchFragment mSwitchFragment;
-    private String nameDell="Daniel";
+    private String nameDell = "Daniel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements
 
 //        loadAllCategoriesName();
         showFragment(new ContainerPagesFragment());
-
-
-
     }
 
     public void loadAllCategoriesName() {
@@ -177,34 +164,22 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void showPost(Post post) {
-        if (mSwitchFragment != null)
-            mSwitchFragment.switchFragment(AdapterViewPagerPages.POST_PAGE_POS);
+        DialogPostFragment dialogPostFragment = DialogPostFragment.newInstance(post);
+        showDialogFragment(dialogPostFragment);
+    }
 
-        if (mPostFragment != null)
-            mPostFragment.showPost(post);
+    private void showDialogFragment(DialogFragment dialogFragment) {
+        dialogFragment.setCancelable(true);
+        dialogFragment.show(getSupportFragmentManager(), "TAG");
+
     }
 
     @Override
-    public void showSpecificPosts(List<Post> specificPosts) {
-        if (mSwitchFragment != null)
-            mSwitchFragment.switchFragment(AdapterViewPagerPages.SPECIFIC_PAGE_POS);
-        if (mSpecificPostFragment != null)
-            mSpecificPostFragment.showSpecificPosts(specificPosts);
-    }
+    public void showPostsBySpecificCategory(List<Post> specificPosts) {
 
-    @Override
-    public void registerEventFromMain(IPostFragment iPostFragment) {
-        this.mPostFragment = iPostFragment;
-    }
 
-    @Override
-    public void registerEventFromMain(ISpecificPostFragment iSpecificPostFragment) {
-        this.mSpecificPostFragment = iSpecificPostFragment;
-    }
-
-    @Override
-    public void registerEventFromMain(ISwitchFragment iSwitchFragment) {
-        this.mSwitchFragment = iSwitchFragment;
+        DialogFragment dialogFragment = DialogSpecificPostsByCategoryFragment.newInstance((ArrayList<Post>) specificPosts,this);
+        showDialogFragment(dialogFragment);
     }
 
 

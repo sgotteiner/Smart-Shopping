@@ -1,11 +1,11 @@
 package com.sagi.smartshopping.fragments;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,29 +19,16 @@ import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.adapters.AdapterItemPost;
 import com.sagi.smartshopping.adapters.AdapterSpecificPostsByCategoty;
 import com.sagi.smartshopping.entities.Post;
-import com.sagi.smartshopping.interfaces.ISpecificPostFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class SpecificPostsFragment extends Fragment implements ISpecificPostFragment, AdapterItemPost.ICallbackPost {
+public class DialogSpecificPostsByCategoryFragment extends DialogFragment  implements AdapterItemPost.ICallbackPost {
 
+    private static final String POSTS_KEY = "POSTS_KEY";
     private OnFragmentInteractionListener mListener;
     private AdapterSpecificPostsByCategoty mAdapterSpecificPostsByCategoty;
     private ArrayList<Post> mAllSpecificPosts;
     private RecyclerView mRecyclerViewSpecificPosts;
-
-    public SpecificPostsFragment() {
-    }
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && getContext()!=null)
-            Toast.makeText(getContext(), "Visible SpecificPostsFragment", Toast.LENGTH_SHORT).show();
-    }
 
 
     @Override
@@ -55,31 +42,39 @@ public class SpecificPostsFragment extends Fragment implements ISpecificPostFrag
         super.onViewCreated(view, savedInstanceState);
 
         mRecyclerViewSpecificPosts=view.findViewById(R.id.recyclerSpecificPosts);
+        initPostsBySpecificCategory();
+    }
+
+    public static DialogSpecificPostsByCategoryFragment newInstance(ArrayList<Post> postsByCategory,OnFragmentInteractionListener listener) {
+        Bundle args = new Bundle();
+        args.putSerializable(POSTS_KEY,postsByCategory);
+        DialogSpecificPostsByCategoryFragment fragment = new DialogSpecificPostsByCategoryFragment(listener);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public DialogSpecificPostsByCategoryFragment(OnFragmentInteractionListener listener) {
+        mListener=listener;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-            mListener.registerEventFromMain(this);
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle =getArguments();
+        if (bundle!=null){
+            mAllSpecificPosts= (ArrayList<Post>) bundle.getSerializable(POSTS_KEY);
         }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener.registerEventFromMain(null);
-        mListener = null;
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        if (mListener!=null)
+         mListener=null;
+        super.onDismiss(dialog);
     }
 
-    @Override
-    public void showSpecificPosts(List<Post> specificPosts) {
-        mAllSpecificPosts = (ArrayList<Post>) specificPosts;
-        mAdapterSpecificPostsByCategoty = new AdapterSpecificPostsByCategoty(mAllSpecificPosts, getContext(),this);
+     private void initPostsBySpecificCategory() {
+         mAdapterSpecificPostsByCategoty = new AdapterSpecificPostsByCategoty(mAllSpecificPosts, getContext(),this);
         mRecyclerViewSpecificPosts.setHasFixedSize(true);
         mRecyclerViewSpecificPosts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mRecyclerViewSpecificPosts.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -88,16 +83,12 @@ public class SpecificPostsFragment extends Fragment implements ISpecificPostFrag
     }
 
 
-
-
     @Override
     public void showPost(Post post) {
         mListener.showPost(post);
     }
 
     public interface OnFragmentInteractionListener {
-        void registerEventFromMain(ISpecificPostFragment iSpecificPostFragment);
-        void showPost(Post post);
-
+         void showPost(Post post);
     }
 }
