@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "14678842231-3h3jakt5vg2mk38svcu4097ilutki1qv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sagi.smartshopping",
+            "certificate_hash": "6b2d306b4a9173af2ba75290add5958cd7507c3e"
+          }
+        },
+        {
           "client_id": "14678842231-tuaj7evjo37647p1nm7o82l0u01stbm3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

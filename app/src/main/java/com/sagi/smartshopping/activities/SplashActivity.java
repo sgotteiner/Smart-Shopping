@@ -1,12 +1,9 @@
 package com.sagi.smartshopping.activities;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
@@ -15,19 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.sagi.smartshopping.R;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.services.LocationService;
 import com.sagi.smartshopping.utilities.CsvReader;
-
-import java.util.ArrayList;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -41,8 +34,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-        mImgIcon = findViewById(R.id.imgIcon);
 
+
+        registerNewTopic();
+
+        mImgIcon = findViewById(R.id.imgIcon);
+        loadAllShopInArea();
 
         //https://www.journaldev.com/9481/android-animation-example
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -66,10 +63,7 @@ public class SplashActivity extends AppCompatActivity {
         });
         mImgIcon.startAnimation(animation);
 
-
-
         showAnotherAnimation();
-
 
         Intent intent = new Intent(this, LocationService.class);
         startService(intent);
@@ -80,6 +74,17 @@ public class SplashActivity extends AppCompatActivity {
             requestPermissions();
         else
             handleShowingActivity();
+    }
+
+    private void registerNewTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic("tel_aviv_mol");
+        FirebaseMessaging.getInstance().subscribeToTopic("sagi_user");
+//        FirebaseMessaging.getInstance().unsubscribeFromTopic()
+    }
+
+    private void loadAllShopInArea() {
+
+
     }
 
     private void showAnotherAnimation() {
@@ -93,16 +98,18 @@ public class SplashActivity extends AppCompatActivity {
     private void csvReader() {
 //        final String FILE_NAME = "data_base_to_standart_users.csv";
 //        final String FILE_NAME = "shopping_local_db.csv";
-        final String FILE_NAME = "new_db.csv";
+//        final String FILE_NAME = "new_db.csv";
+        final String FILE_NAME = "new_new_db.csv";
 
-        new CsvReader(this, FILE_NAME, rows -> {
-            Log.i("CsvReader", "csvReader: "+rows.size());
+        new CsvReader(this, FILE_NAME, shops -> {
+            Log.i("CsvReader", "csvReader: " + shops.size());
         }).execute();
     }
 
 
     private void requestPermissions() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_LOCATION);
     }
 
     private boolean isNeedAskPermission() {

@@ -1,5 +1,6 @@
 package com.sagi.smartshopping.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.sagi.smartshopping.fragments.DialogSpecificPostsByCategoryFragment;
 import com.sagi.smartshopping.fragments.UserFragment;
 import com.sagi.smartshopping.fragments.dialogs.DialogPostFragment;
 import com.sagi.smartshopping.interfaces.ICreatePostFragment;
+import com.sagi.smartshopping.services.LocationService;
 import com.sagi.smartshopping.utilities.Patch;
 import com.sagi.smartshopping.reposetories.preferance.SharedPreferencesHelper;
 import com.sagi.smartshopping.utilities.UploadImage;
@@ -55,14 +57,18 @@ public class MainActivity extends AppCompatActivity implements
 
         myRef = FirebaseDatabase.getInstance().getReference();
 
-//        loadAllCategoriesName();
+
+
+
+
+        // loadAllCategoriesName();
         showFragment(new ContainerPagesFragment());
     }
 
     public void loadAllCategoriesName() {
         myRef.child(FireBaseConstant.NAME_CATEGORIES_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String[] allCategoriesName = new String[(int) dataSnapshot.getChildrenCount() + 1];
                 allCategoriesName[0] = "Press to select";
                 int index = 1;

@@ -44,7 +44,6 @@ public class LocationService extends Service {
         super.onCreate();
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-
         LocationRequest locationRequest = new LocationRequest()
                 .setFastestInterval(1000)
                 .setInterval(1000)

@@ -32,7 +32,6 @@ public interface PostDao {
     @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mTimestamp >= :timeStampStart AND mTimestamp <= :timeStampEnd ORDER BY mTimestamp DESC")
     LiveData<List<Post>> getPostListBetweenDate(long timeStampStart,long timeStampEnd);
 
-
     @Query("SELECT * FROM "+ DatabaseConstant.POST_TABLE+" WHERE mKey = :key")
     Post isExist(String key);
 

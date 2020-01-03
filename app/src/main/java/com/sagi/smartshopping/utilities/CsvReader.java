@@ -3,6 +3,11 @@ package com.sagi.smartshopping.utilities;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.sagi.smartshopping.entities.Shop;
+import com.sagi.smartshopping.utilities.constant.FireBaseConstant;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,9 +40,11 @@ public class CsvReader extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         if (mListener != null)
-            mListener.onFinish(rowsList);
+            mListener.onFinish(arrShops);
 
     }
+
+    private ArrayList<Shop> arrShops;
 
     private void start() {
         try {
@@ -48,16 +55,13 @@ public class CsvReader extends AsyncTask<Void, Void, Void> {
             BufferedReader br = new BufferedReader(csvStreamReader);
             String line;
             String csvSplitBy = ",";
-
-
             StringBuilder all = new StringBuilder();
-
 
             //header
             br.readLine();
 
             while ((line = br.readLine()) != null) {
-               // String[] row = line.split(csvSplitBy);
+                // String[] row = line.split(csvSplitBy);
 //                rowsList.add(row);
 
                 all.append(line);
@@ -68,12 +72,36 @@ public class CsvReader extends AsyncTask<Void, Void, Void> {
 
             String allData = all.toString().replaceAll("\n", "");
             String[] row = allData.split(csvSplitBy);
-
-
-
-
+            String name, mallName, city, urlLogo, openTime, category, phone, description, address;
+            int floor;
+            arrShops = new ArrayList<>();
+            for (int i = 0; i < row.length; ) {
+                name = row[i++];
+                mallName = row[i++];
+                city = row[i++];
+                urlLogo = row[i++];
+                openTime = row[i++];
+                category = row[i++];
+                floor = Integer.valueOf(row[i++]);
+                phone = row[i++];
+                description = row[i++];
+                address = row[i++];
+                arrShops.add(new Shop(name, mallName, city, urlLogo, openTime, category, floor, phone, description, address));
+            }
+            uploadShopsToFirebase(arrShops);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+    private void uploadShopsToFirebase(ArrayList<Shop> arrShops) {
+        for (int i = 0; i < arrShops.size(); i++) {
+            String key = myRef.child(FireBaseConstant.SHOPS_TABLE).push().getKey();
+            arrShops.get(i).setKey(key);
+            assert key != null;
+            myRef.child(FireBaseConstant.SHOPS_TABLE).child(key).setValue(arrShops.get(i));
         }
     }
 
@@ -101,6 +129,6 @@ public class CsvReader extends AsyncTask<Void, Void, Void> {
 //    }
 
     public interface CallbackOnLoadedCsv {
-        void onFinish(ArrayList<String[]> rows);
+        void onFinish(ArrayList<Shop> shops);
     }
 }

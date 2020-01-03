@@ -60,8 +60,7 @@ public class HomepageFragment extends Fragment implements AdapterTitleCategory.C
 
         mViewModel.getHashMapAllPostsCategories().observe(this, new Observer<HashMap<String, List<Post>>>() {
             @Override
-            public void onChanged(HashMap<String, List<Post>> stringListHashMap) {
-
+            public void onChanged(HashMap<String,List<Post>> stringListHashMap) {
                 filterPostList(stringListHashMap);
                 mAdapterPostsByCategory.notifyDataSetChanged();
             }

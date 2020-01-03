@@ -23,6 +23,16 @@ public class Post implements Serializable {
     private int mLikes=0;
     private String mCityLocation;
 
+    public String getShopKey() {
+        return mShopKey;
+    }
+
+    public void setShopKey(String mShopKey) {
+        this.mShopKey = mShopKey;
+    }
+
+    private String mShopKey;
+
 
     public String getCityLocation() {
         return mCityLocation;
